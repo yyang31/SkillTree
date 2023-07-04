@@ -3,6 +3,10 @@
     const unlockedColor = "#def";
     const selectedColor = "#33C3F0";
 
+    const lockedOpacity = 0.1;
+    const unlockedOpacity = 0.5;
+    const selectedOpacity = 1;
+
     const container = document.getElementById("skilltree");
     const data = {
         nodes: nodes,
@@ -15,7 +19,7 @@
         },
         nodes: {
             chosen: false,
-            shape: "dot",
+            shape: "circularImage",
             size: 10,
             color: lockedColor,
             font: {
@@ -25,6 +29,7 @@
             },
             borderWidth: 1,
             physics: false,
+            opacity: lockedOpacity,
         },
         edges: {
             color: lockedColor,
@@ -46,7 +51,7 @@
             Alignment: { color: { background: "yellow" } },
             Ambiguity: { color: { background: "orange" } },
             Interconnectivity: { color: { background: "blue" } },
-            Communication: { color: { background: "white" } },
+            Communication: { color: { background: "purple" } },
             BalancesStakeholders: { color: { background: "gray" } },
             Adaptability: { color: { background: "green" } },
         },
@@ -71,7 +76,7 @@
 
     // network.focus("1");
 
-    let wallet = 115;
+    let wallet = 50;
 
     /* ********************************************************************************* */
 
@@ -161,37 +166,38 @@
             if (currNode.selected !== true) {
                 if (currNode.requiredSubtree.length > 0) {
                     // if missing nodes in path mark as locked
-                    currNode.locked +=
-                        "/!\\ ALERTE REQUIREMENTS /!\\ \n Pour debloquer cette compétence, il faut acquérir les compétences suivantes : \n- " +
-                        currNode.requiredSubtree
-                            .map((n) => n.label.replace("\n", " "))
-                            .join("\n- ");
+                    currNode.locked += "the skill is locked";
                 } else if (nodes.get(nodeId).value > wallet) {
                     // if not enough credit mark as locked
-                    currNode.locked +=
-                        "/!\\ ALERTE PAUVRETÉ /!\\ \n Pas assez de crédits, il t'en reste " +
-                        wallet +
-                        "\n";
+                    currNode.locked += "not enough credit";
                 }
             }
 
             // change node visuals
-            currNode.color = {
-                background:
-                    currNode.selected === true
-                        ? selectedColor
-                        : currNode.locked === ""
-                        ? unlockedColor
-                        : lockedColor,
-                highlight: {
-                    background:
-                        currNode.selected === true
-                            ? selectedColor
-                            : currNode.locked === ""
-                            ? unlockedColor
-                            : lockedColor,
-                },
-            };
+            var updateOpacity = lockedOpacity;
+            if (currNode.selected === true) {
+                updateOpacity = selectedOpacity;
+            } else if (currNode.locked === "") {
+                updateOpacity = unlockedOpacity;
+            }
+            currNode.opacity = updateOpacity;
+
+            // currNode.color = {
+            //     background:
+            //         currNode.selected === true
+            //             ? selectedColor
+            //             : currNode.locked === ""
+            //             ? unlockedColor
+            //             : lockedColor,
+            //     highlight: {
+            //         background:
+            //             currNode.selected === true
+            //                 ? selectedColor
+            //                 : currNode.locked === ""
+            //                 ? unlockedColor
+            //                 : lockedColor,
+            //     },
+            // };
             currNode.shapeProperties =
                 currNode.locked === ""
                     ? { borderDashes: false }
@@ -248,42 +254,15 @@
             let currNode = nodes.get(p.nodes[0]);
             if (currNode.locked == "") {
                 if (currNode.selected == true) {
-                    if (
-                        confirm(
-                            "Refund " +
-                                currNode.refund +
-                                " crédits (-10%) pour les compétences :\n- " +
-                                currNode.label.replace("\n", "") +
-                                (currNode.selectedParents.length > 0
-                                    ? "\n- " +
-                                      currNode.selectedParents
-                                          .map((n) =>
-                                              n.label.replace("\n", " ")
-                                          )
-                                          .join("\n- ")
-                                    : "")
-                        )
-                    ) {
-                        currNode.selectedParents.forEach((node) => {
-                            node.selected = false;
-                            nodes.update(node);
-                        });
-                        currNode.selected = false;
-                        wallet += currNode.refund;
-                    }
+                    currNode.selectedParents.forEach((node) => {
+                        node.selected = false;
+                        nodes.update(node);
+                    });
+                    currNode.selected = false;
+                    wallet += currNode.refund;
                 } else {
-                    if (
-                        confirm(
-                            "Acquérir la compétence :\n- " +
-                                currNode.label.replace("\n", "") +
-                                "\nIl te restera " +
-                                (wallet - currNode.value) +
-                                " crédits"
-                        )
-                    ) {
-                        currNode.selected = true;
-                        wallet -= currNode.value;
-                    }
+                    currNode.selected = true;
+                    wallet -= currNode.value;
                 }
                 nodes.update(currNode);
                 document.getElementById("wallet").innerHTML = wallet;
@@ -293,5 +272,16 @@
             }
             buildGraphDisplay();
         }
+    });
+
+    // functionality for popup to show on mouseover
+    network.on("hoverNode", function (p) {
+        console.log("hoverNode");
+        console.log(p);
+    });
+
+    // functionality for popup to hide on mouseout
+    network.on("blurNode", function (p) {
+        console.log(p);
     });
 })();
