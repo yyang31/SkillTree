@@ -19,7 +19,7 @@ body {
     border: 1px solid lightgrey;
 }
 
-#popin {
+#popup {
     z-index: 200;
     position: absolute;
     left: 50%;
@@ -29,6 +29,6 @@ body {
     padding: 16px;
 }
 
-#popin:empty {
+#popup:empty {
     display: none;
 }

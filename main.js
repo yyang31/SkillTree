@@ -16,6 +16,7 @@
     const options = {
         interaction: {
             selectConnectedEdges: false,
+            hover: true,
         },
         nodes: {
             chosen: false,
@@ -45,15 +46,23 @@
             // },
         },
         groups: {
-            SelfGrowth: { color: { background: "red" } },
-            DrivesResults: { color: { background: "pink" } },
-            StrategicMindset: { color: { background: "black" } },
-            Alignment: { color: { background: "yellow" } },
-            Ambiguity: { color: { background: "orange" } },
-            Interconnectivity: { color: { background: "blue" } },
-            Communication: { color: { background: "purple" } },
-            BalancesStakeholders: { color: { background: "gray" } },
-            Adaptability: { color: { background: "green" } },
+            SelfGrowth: { color: { background: "red", border: "red" } },
+            DrivesResults: { color: { background: "pink", border: "pink" } },
+            StrategicMindset: {
+                color: { background: "black", border: "black" },
+            },
+            Alignment: { color: { background: "yellow", border: "yellow" } },
+            Ambiguity: { color: { background: "orange", border: "orange" } },
+            Interconnectivity: {
+                color: { background: "blue", border: "blue" },
+            },
+            Communication: {
+                color: { background: "purple", border: "purple" },
+            },
+            BalancesStakeholders: {
+                color: { background: "gray", border: "gray" },
+            },
+            Adaptability: { color: { background: "green", border: "green" } },
         },
         layout: { randomSeed: 0 },
         // physics: {
@@ -70,9 +79,9 @@
     //     nodes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     // });
 
-    // network.moveTo({
-    //     position: { x: 0, y: 0 },
-    // });
+    network.moveTo({
+        position: { x: 0, y: 0 },
+    });
 
     // network.focus("1");
 
@@ -182,22 +191,6 @@
             }
             currNode.opacity = updateOpacity;
 
-            // currNode.color = {
-            //     background:
-            //         currNode.selected === true
-            //             ? selectedColor
-            //             : currNode.locked === ""
-            //             ? unlockedColor
-            //             : lockedColor,
-            //     highlight: {
-            //         background:
-            //             currNode.selected === true
-            //                 ? selectedColor
-            //                 : currNode.locked === ""
-            //                 ? unlockedColor
-            //                 : lockedColor,
-            //     },
-            // };
             currNode.shapeProperties =
                 currNode.locked === ""
                     ? { borderDashes: false }
@@ -210,21 +203,14 @@
             );
             currNode.title =
                 currNode.selected === true
-                    ? currNode.label +
-                      " : Compétence acquise<br/> Refund pour " +
-                      currNode.refund +
-                      " crédits"
+                    ? "deselect this skill"
                     : currNode.locked === ""
-                    ? "Acquerir " +
-                      currNode.label +
-                      " pour " +
-                      currNode.value +
-                      " crédits"
+                    ? "select this skill"
                     : currNode.locked.replace(/\n/g, "<br/>");
-            /*
-    			currNode.borderWidth = (currNode.selected == true)?2:1;
-    			currNode.borderWidthSelected = (currNode.selected == true)?2:1;
-    			*/
+
+            currNode.borderWidth = currNode.selected == true ? 4 : 0;
+            // currNode.borderWidthSelected = currNode.selected == true ? 2 : 1;
+
             nodes.update(currNode);
 
             const connectedEdges = network.getConnectedEdges(currNode.id);
@@ -276,8 +262,18 @@
 
     // functionality for popup to show on mouseover
     network.on("hoverNode", function (p) {
-        console.log("hoverNode");
-        console.log(p);
+        if (p.node) {
+            let nodeId = p.node;
+            let position = network.canvasToDOM(
+                network.getPositions([nodeId])[nodeId]
+            );
+
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+            popup.style.position = "absolute";
+            popup.style.top = position.y + "px";
+            popup.style.left = position.x + "px";
+        }
     });
 
     // functionality for popup to hide on mouseout
