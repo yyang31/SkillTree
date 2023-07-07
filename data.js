@@ -18,6 +18,8 @@ let nodes = new vis.DataSet([
         group: "SelfGrowth",
         label: "Self-Growth",
         image: "images/placeholder.png",
+        description:
+            "Actively seek ways to grow and be challenged using development channels",
         x: -100,
         y: -125,
     },
@@ -27,6 +29,7 @@ let nodes = new vis.DataSet([
         group: "DrivesResults",
         label: "Drives Results",
         image: "images/placeholder.png",
+        description: "Consistently achieve results, despite the circumstances",
         x: 0,
         y: -150,
     },
@@ -36,6 +39,8 @@ let nodes = new vis.DataSet([
         group: "StrategicMindset",
         label: "Strategic Mindset",
         image: "images/placeholder.png",
+        description:
+            "Decides the best course of action for future trajectories",
         x: 100,
         y: -125,
     },
@@ -45,6 +50,8 @@ let nodes = new vis.DataSet([
         group: "Alignment",
         label: "Alignment",
         image: "images/placeholder.png",
+        description:
+            "Plans and prioritizes work to meet commitments aligned with organizational goals",
         x: 140,
         y: 75,
     },
@@ -54,6 +61,8 @@ let nodes = new vis.DataSet([
         group: "Ambiguity",
         label: "Ambiguity",
         image: "images/placeholder.png",
+        description:
+            "Operates well, even when things are not certain or clear cut",
         x: 150,
         y: -25,
     },
@@ -63,6 +72,7 @@ let nodes = new vis.DataSet([
         group: "Interconnectivity",
         label: "Interconnectivity",
         image: "images/placeholder.png",
+        description: "Converse and relate comfortably with diverse groups",
         x: 60,
         y: 150,
     },
@@ -72,6 +82,7 @@ let nodes = new vis.DataSet([
         group: "Communication",
         label: "Communication",
         image: "images/placeholder.png",
+        description: "Develop and express thoughts and feelings to an audience",
         x: -60,
         y: 150,
     },
@@ -81,6 +92,8 @@ let nodes = new vis.DataSet([
         group: "BalancesStakeholders",
         label: "Balances Stakeholders",
         image: "images/placeholder.png",
+        description:
+            "Address needs of multiple groups associated with the organization",
         x: -140,
         y: 75,
     },
@@ -90,6 +103,8 @@ let nodes = new vis.DataSet([
         group: "Adaptability",
         label: "Adaptability",
         image: "images/placeholder.png",
+        description:
+            "Shifting behaviors to fit organizational context in real time",
         x: -150,
         y: -25,
     },
@@ -99,6 +114,8 @@ let nodes = new vis.DataSet([
         group: "BalancesStakeholders",
         label: "Lend Your Ear",
         image: "images/placeholder.png",
+        description:
+            "Address needs of multiple groups associated with the organization",
         x: -200,
         y: 150,
     },

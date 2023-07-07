@@ -260,6 +260,7 @@
         }
     });
 
+    var popup = document.getElementById("popup");
     // functionality for popup to show on mouseover
     network.on("hoverNode", function (p) {
         if (p.node) {
@@ -268,16 +269,20 @@
                 network.getPositions([nodeId])[nodeId]
             );
 
-            var popup = document.getElementById("popup");
+            let curNode = nodes.get(nodeId);
+
             popup.style.display = "block";
             popup.style.position = "absolute";
             popup.style.top = position.y + "px";
             popup.style.left = position.x + "px";
+
+            console.log(curNode);
+            popup.innerText = curNode.description;
         }
     });
 
     // functionality for popup to hide on mouseout
     network.on("blurNode", function (p) {
-        console.log(p);
+        popup.style.display = "none";
     });
 })();
