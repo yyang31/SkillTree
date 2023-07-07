@@ -114,8 +114,6 @@ let nodes = new vis.DataSet([
         group: "BalancesStakeholders",
         label: "Lend Your Ear",
         image: "images/placeholder.png",
-        description:
-            "Address needs of multiple groups associated with the organization",
         x: -200,
         y: 150,
     },

@@ -1,4 +1,7 @@
 (() => {
+    // common selectors
+    var popup = document.getElementById("popup");
+
     const lockedColor = "#ccc";
     const unlockedColor = "#def";
     const selectedColor = "#33C3F0";
@@ -201,12 +204,12 @@
                     currNode.value
                 ) * 0.9
             );
-            currNode.title =
-                currNode.selected === true
-                    ? "deselect this skill"
-                    : currNode.locked === ""
-                    ? "select this skill"
-                    : currNode.locked.replace(/\n/g, "<br/>");
+            // currNode.title =
+            //     currNode.selected === true
+            //         ? "deselect this skill"
+            //         : currNode.locked === ""
+            //         ? "select this skill"
+            //         : currNode.locked.replace(/\n/g, "<br/>");
 
             currNode.borderWidth = currNode.selected == true ? 4 : 0;
             // currNode.borderWidthSelected = currNode.selected == true ? 2 : 1;
@@ -260,29 +263,55 @@
         }
     });
 
-    var popup = document.getElementById("popup");
     // functionality for popup to show on mouseover
     network.on("hoverNode", function (p) {
         if (p.node) {
             let nodeId = p.node;
-            let position = network.canvasToDOM(
-                network.getPositions([nodeId])[nodeId]
-            );
-
             let curNode = nodes.get(nodeId);
-
-            popup.style.display = "block";
-            popup.style.position = "absolute";
-            popup.style.top = position.y + "px";
-            popup.style.left = position.x + "px";
-
-            console.log(curNode);
-            popup.innerText = curNode.description;
+            populatePopup(curNode);
         }
     });
 
     // functionality for popup to hide on mouseout
     network.on("blurNode", function (p) {
-        popup.style.display = "none";
+        popup.style.opacity = "0";
     });
+
+    function populatePopup(node) {
+        let position = network.canvasToDOM(
+            network.getPositions([node.id])[node.id]
+        );
+
+        popup.querySelector("#popupNotice").innerText = node.locked;
+        popup.querySelector("#popupTitle").innerText = node.label;
+        popup.querySelector("#popupDescription").innerText = node.description;
+
+        popup.style.top = position.y + "px";
+        popup.style.bottom = "initial";
+        popup.style.left = position.x - popup.offsetWidth / 2 + "px";
+        popup.style.right = "initial";
+
+        var popupPosition = popup.getBoundingClientRect();
+        if (popupPosition.top + popupPosition.height > window.innerHeight) {
+            // is off the bottom of the view
+            popup.style.top = "initial";
+            popup.style.bottom = window.innerHeight - position.y + "px";
+        }
+        if (popupPosition.right > window.innerWidth) {
+            // is off to the right of the view
+            popup.style.right = 0;
+            popup.style.left = "initial";
+        }
+        if (popupPosition.left < 0) {
+            // is off to the left of the view
+            popup.style.left = 0;
+        }
+        if (popupPosition.top < 0) {
+            // is off the top of the view
+            popup.style.top = 0;
+        }
+
+        popup.style.opacity = "1";
+        popup.style.visibility = "visible";
+    }
 })();

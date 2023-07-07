@@ -3,6 +3,7 @@ body {
     padding: 0;
     margin: 0;
     font-family: 'Montserrat';
+    color: #001c00;
 }
 
 #skilltree {
@@ -16,23 +17,42 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    padding: 16px;
+    padding: 15px;
     border: 1px solid lightgrey;
 }
 
 #popup {
+    opacity: 0;
     z-index: 200;
+    display: block;
+    visibility: hidden;
     position: absolute;
-    padding: 16px;
-    max-width: 200px;
+    padding: 15px;
+    width: 200px;
     text-align: center;
     pointer-events: none;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, .2);
     border-radius: .3rem;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    transition: visibility 0s, opacity 0.2s linear;
 }
 
-#popup:empty {
+#popup #popupNotice {
+    color: red;
+    padding-bottom: 15px;
+}
+
+#popup #popupNotice:empty {
+    display: none;
+}
+
+#popup #popupTitle {
+    font-size: 18px;
+    padding-bottom: 15px;
+    font-weight: bold;
+}
+
+#popup #popupTitle:empty {
     display: none;
 }
