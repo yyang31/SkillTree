@@ -3,8 +3,9 @@ let nodes = new vis.DataSet([
         id: 1,
         value: 1,
         group: "Carrer",
-        label: "Carrer",
         image: "images/placeholder.png",
+        value: 40,
+        disabled: true,
         x: 0,
         y: 0,
         fixed: {

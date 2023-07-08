@@ -6,7 +6,7 @@
     const unlockedColor = "#def";
     const selectedColor = "#33C3F0";
 
-    const lockedOpacity = 0.1;
+    const lockedOpacity = 0;
     const unlockedOpacity = 0.5;
     const selectedOpacity = 1;
 
@@ -24,7 +24,7 @@
         nodes: {
             chosen: false,
             shape: "circularImage",
-            size: 10,
+            scaling: { min: 20, max: 50 },
             color: lockedColor,
             font: {
                 face: "Raleway, Helvetica, Arial",
@@ -149,7 +149,8 @@
             currNode.requiredSubtree = getSubtree(nodeId).reduce(
                 (requiredNodes, id) => {
                     const childNode = nodes.get(id);
-                    childNode.selected !== true &&
+                    childNode.disabled !== true &&
+                        childNode.selected !== true &&
                         typeof requiredNodes.find(
                             (o) => o.id === childNode.id
                         ) === "undefined" &&
@@ -179,15 +180,12 @@
                 if (currNode.requiredSubtree.length > 0) {
                     // if missing nodes in path mark as locked
                     currNode.locked += "the skill is locked";
-                } else if (nodes.get(nodeId).value > wallet) {
-                    // if not enough credit mark as locked
-                    currNode.locked += "not enough credit";
                 }
             }
 
             // change node visuals
             var updateOpacity = lockedOpacity;
-            if (currNode.selected === true) {
+            if (currNode.selected === true || currNode.disabled == true) {
                 updateOpacity = selectedOpacity;
             } else if (currNode.locked === "") {
                 updateOpacity = unlockedOpacity;
@@ -204,6 +202,7 @@
                     currNode.value
                 ) * 0.9
             );
+
             // currNode.title =
             //     currNode.selected === true
             //         ? "deselect this skill"
@@ -241,6 +240,10 @@
     network.on("click", (p) => {
         if (p.nodes.length) {
             let currNode = nodes.get(p.nodes[0]);
+            if (currNode.disabled === true) {
+                return;
+            }
+
             if (currNode.locked == "") {
                 if (currNode.selected == true) {
                     currNode.selectedParents.forEach((node) => {
@@ -260,6 +263,8 @@
                 // alert(currNode.locked);
             }
             buildGraphDisplay();
+
+            popup.style.opacity = "0";
         }
     });
 
@@ -278,6 +283,10 @@
     });
 
     function populatePopup(node) {
+        if (node.disabled === true) {
+            return;
+        }
+
         let position = network.canvasToDOM(
             network.getPositions([node.id])[node.id]
         );
