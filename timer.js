@@ -4,7 +4,6 @@
     var appendTens = document.getElementById("tens")
     var appendSeconds = document.getElementById("seconds")
     var buttonStop = document.getElementById('button-stop');
-    var buttonReset = document.getElementById('button-reset');
     var Interval ;
   
     window.onload = 
@@ -19,13 +18,6 @@
     }
     
   
-    buttonReset.onclick = function() {
-       clearInterval(Interval);
-      tens = "00";
-        seconds = "00";
-      appendTens.innerHTML = tens;
-        appendSeconds.innerHTML = seconds;
-    }
     
      
     
