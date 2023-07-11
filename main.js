@@ -2,12 +2,27 @@
     // common selectors
     var popup = document.getElementById("popup");
 
+    // important colors
+    const notBlack = "rgba(49, 54, 56, 1)";
+    const notWhite = "rgba(232, 233, 235, 1)";
+
+    // default color for each category
+    const drivesResultColor = "rgba(130, 148, 196, 1)";
+    const StrategicMindsetColor = "rgba(160, 196, 157, 1)";
+    const ambiguityColor = "rgba(252, 174, 174, 1)";
+    const alignmentColor = "rgba(247, 208, 138, 1)";
+    const interconnectivityColor = "rgba(48, 107, 172, 1)";
+    const communicationColor = "rgba(239, 100, 97, 1)";
+    const balancesStakeholdersColor = "rgba(179, 178, 170 , 1)";
+    const adaptabilityColor = "rgba(69, 69, 69, 1)";
+    const selfGrowthColor = "rgba(72, 112, 79, 1)";
+
     const lockedColor = "#ccc";
     const unlockedColor = "#def";
     const selectedColor = "#33C3F0";
 
     const lockedOpacity = 0;
-    const unlockedOpacity = 0.5;
+    const unlockedOpacity = 0;
     const selectedOpacity = 1;
 
     const container = document.getElementById("skilltree");
@@ -25,7 +40,6 @@
             chosen: false,
             shape: "circularImage",
             scaling: { min: 20, max: 50 },
-            color: lockedColor,
             font: {
                 face: "Raleway, Helvetica, Arial",
                 size: 11,
@@ -49,23 +63,15 @@
             // },
         },
         groups: {
-            SelfGrowth: { color: { background: "red", border: "red" } },
-            DrivesResults: { color: { background: "pink", border: "pink" } },
-            StrategicMindset: {
-                color: { background: "black", border: "black" },
-            },
-            Alignment: { color: { background: "yellow", border: "yellow" } },
-            Ambiguity: { color: { background: "orange", border: "orange" } },
-            Interconnectivity: {
-                color: { background: "blue", border: "blue" },
-            },
-            Communication: {
-                color: { background: "purple", border: "purple" },
-            },
-            BalancesStakeholders: {
-                color: { background: "gray", border: "gray" },
-            },
-            Adaptability: { color: { background: "green", border: "green" } },
+            SelfGrowth: { color: selfGrowthColor },
+            DrivesResults: { color: drivesResultColor },
+            StrategicMindset: { color: StrategicMindsetColor },
+            Alignment: { color: alignmentColor },
+            Ambiguity: { color: ambiguityColor },
+            Interconnectivity: { color: interconnectivityColor },
+            Communication: { color: communicationColor },
+            BalancesStakeholders: { color: balancesStakeholdersColor },
+            Adaptability: { color: adaptabilityColor },
         },
         layout: { randomSeed: 0 },
         // physics: {
