@@ -22,7 +22,7 @@
     const selectedColor = "#33C3F0";
 
     const lockedOpacity = 0;
-    const unlockedOpacity = 0;
+    const unlockedOpacity = 0.25;
     const selectedOpacity = 1;
 
     const container = document.getElementById("skilltree");
