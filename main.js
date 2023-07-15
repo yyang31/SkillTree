@@ -94,7 +94,17 @@
 
     // network.focus("1");
 
-    let wallet = 50;
+    let skillPoints = 50;
+    var skillPointsUsage = {
+        DrivesResults: 0,
+        StrategicMindset: 0,
+        Alignment: 0,
+        Ambiguity: 0,
+        Interconnectivity: 0,
+        Communication: 0,
+        BalancesStakeholders: 0,
+        Adaptability: 0,
+    };
 
     /* ********************************************************************************* */
 
@@ -103,8 +113,8 @@
     		change visuals based on status (values / requirements / selected)
     	**/
     const buildGraphDisplay = function () {
-        //update wallet display
-        document.getElementById("wallet").innerHTML = wallet;
+        //update skillPoints display
+        document.getElementById("skillPoints").innerHTML = skillPoints;
 
         /* recursive subTree (classic) */
         /*
@@ -148,11 +158,11 @@
         };
 
         nodes.getIds().forEach((nodeId) => {
-            let currNode = nodes.get(nodeId);
+            let curNode = nodes.get(nodeId);
 
             // updating nodes with subtree
             // example using reduce
-            currNode.requiredSubtree = getSubtree(nodeId).reduce(
+            curNode.requiredSubtree = getSubtree(nodeId).reduce(
                 (requiredNodes, id) => {
                     const childNode = nodes.get(id);
                     childNode.disabled !== true &&
@@ -177,55 +187,55 @@
                     ) === "undefined" &&
                     selectedParents.push(parentNode);
             });
-            currNode.selectedParents = selectedParents;
+            curNode.selectedParents = selectedParents;
 
             // by default mark all as available
-            currNode.locked = "";
+            curNode.locked = "";
             //trigger errors for unselected nodes
-            if (currNode.selected !== true) {
-                if (currNode.requiredSubtree.length > 0) {
+            if (curNode.selected !== true) {
+                if (curNode.requiredSubtree.length > 0) {
                     // if missing nodes in path mark as locked
-                    currNode.locked += "the skill is locked";
+                    curNode.locked += "the skill is locked";
                 }
             }
 
             // change node visuals
             var updateOpacity = lockedOpacity;
-            if (currNode.selected === true || currNode.disabled == true) {
+            if (curNode.selected === true || curNode.disabled == true) {
                 updateOpacity = selectedOpacity;
-            } else if (currNode.locked === "") {
+            } else if (curNode.locked === "") {
                 updateOpacity = unlockedOpacity;
             }
-            currNode.opacity = updateOpacity;
+            curNode.opacity = updateOpacity;
 
-            currNode.shapeProperties =
-                currNode.locked === ""
+            curNode.shapeProperties =
+                curNode.locked === ""
                     ? { borderDashes: false }
                     : { borderDashes: [6, 4] };
-            currNode.refund = Math.round(
-                currNode.selectedParents.reduce(
+            curNode.refund = Math.round(
+                curNode.selectedParents.reduce(
                     (parentsRefund, node) => parentsRefund + node.value,
-                    currNode.value
+                    curNode.value
                 ) * 0.9
             );
 
-            // currNode.title =
-            //     currNode.selected === true
+            // curNode.title =
+            //     curNode.selected === true
             //         ? "deselect this skill"
-            //         : currNode.locked === ""
+            //         : curNode.locked === ""
             //         ? "select this skill"
-            //         : currNode.locked.replace(/\n/g, "<br/>");
+            //         : curNode.locked.replace(/\n/g, "<br/>");
 
-            currNode.borderWidth = currNode.selected == true ? 4 : 0;
-            // currNode.borderWidthSelected = currNode.selected == true ? 2 : 1;
+            curNode.borderWidth = curNode.selected == true ? 4 : 0;
+            // curNode.borderWidthSelected = curNode.selected == true ? 2 : 1;
 
-            nodes.update(currNode);
+            nodes.update(curNode);
 
-            const connectedEdges = network.getConnectedEdges(currNode.id);
+            const connectedEdges = network.getConnectedEdges(curNode.id);
             connectedEdges.forEach((id) => {
                 const edge = edges.get(id);
-                if (edge.to == currNode.id) {
-                    edge.dashes = currNode.selected === true ? false : true;
+                if (edge.to == curNode.id) {
+                    edge.dashes = curNode.selected === true ? false : true;
                     edges.update(edge);
                 }
             });
@@ -241,35 +251,38 @@
     });
 
     /**
-    		on click, update graph nodes selected status, handle wallet
+    		on click, update graph nodes selected status, handle skillPoints
     	**/
     network.on("click", (p) => {
         if (p.nodes.length) {
-            let currNode = nodes.get(p.nodes[0]);
-            if (currNode.disabled === true) {
+            let curNode = nodes.get(p.nodes[0]);
+            if (curNode.disabled === true) {
                 return;
             }
 
-            if (currNode.locked == "") {
-                if (currNode.selected == true) {
-                    currNode.selectedParents.forEach((node) => {
+            if (curNode.locked == "") {
+                if (curNode.selected == true) {
+                    curNode.selectedParents.forEach((node) => {
                         node.selected = false;
                         nodes.update(node);
                     });
-                    currNode.selected = false;
-                    wallet += currNode.refund;
+                    curNode.selected = false;
+                    skillPoints += curNode.refund;
+                    skillPointsUsage[curNode.group] -= 1;
                 } else {
-                    currNode.selected = true;
-                    wallet -= currNode.value;
+                    curNode.selected = true;
+                    skillPoints -= curNode.value;
+                    skillPointsUsage[curNode.group] += 1;
                 }
-                nodes.update(currNode);
-                document.getElementById("wallet").innerHTML = wallet;
+                nodes.update(curNode);
+                document.getElementById("skillPoints").innerHTML = skillPoints;
+
+                renderProfressBar();
             } else {
                 // No need to alert, those are displayed in tooltips
-                // alert(currNode.locked);
+                // alert(curNode.locked);
             }
             buildGraphDisplay();
-
             popup.style.opacity = "0";
         }
     });
@@ -329,4 +342,34 @@
         popup.style.opacity = "1";
         popup.style.visibility = "visible";
     }
+
+    const pbElements = {
+        DrivesResults: drivesResultColor,
+        StrategicMindset: StrategicMindsetColor,
+        Alignment: alignmentColor,
+        Ambiguity: ambiguityColor,
+        Interconnectivity: interconnectivityColor,
+        Communication: communicationColor,
+        BalancesStakeholders: balancesStakeholdersColor,
+        Adaptability: adaptabilityColor,
+    };
+
+    function renderProfressBar() {
+        const progressBarConatiner = document.getElementById("progressBar");
+
+        progressBarConatiner.innerHTML = "";
+
+        for (const [key, value] of Object.entries(pbElements)) {
+            var newPBElement = document.createElement("div");
+            newPBElement.classList.add("progress");
+            newPBElement.style.backgroundColor = value;
+            newPBElement.innerText = skillPointsUsage[key];
+
+            progressBarConatiner.appendChild(newPBElement);
+        }
+    }
+
+    window.onload = () => {
+        renderProfressBar();
+    };
 })();

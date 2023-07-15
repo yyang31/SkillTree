@@ -22,9 +22,8 @@ body {
     text-align: center;
     pointer-events: none;
     background-color: rgba(232, 233, 235, 1);
-    border: 1px solid rgba(0, 0, 0, .2);
     border-radius: .3rem;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
     transition: visibility 0s, opacity 0.2s linear;
 }
 
@@ -64,6 +63,7 @@ body {
     width: 100%;
     border-radius: 10px;
     background-color: rgba(49, 54, 56, 0.9);
+    box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
     overflow: hidden;
 }
 
@@ -85,6 +85,25 @@ body {
 #summary {
     height: 100%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+#progressBar {
+    height: 15px;
+    width: 100%;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progressBar .progress {
+    flex: 1;
+    text-align: center;
+    color: rgba(232, 233, 235, 1);
+    text-shadow: 1px 1px 3px rgba(49, 54, 56, 1);
+    font-size: 12px;
 }
 
 #action {
