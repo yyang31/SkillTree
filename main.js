@@ -7,15 +7,15 @@
     const notWhite = "rgba(232, 233, 235, 1)";
 
     // default color for each category
-    const drivesResultColor = "rgba(130, 148, 196, 1)";
+    const drivesResultColor = "rgba(177, 169, 201, 1)";
     const StrategicMindsetColor = "rgba(160, 196, 157, 1)";
     const ambiguityColor = "rgba(252, 174, 174, 1)";
     const alignmentColor = "rgba(247, 208, 138, 1)";
-    const interconnectivityColor = "rgba(48, 107, 172, 1)";
-    const communicationColor = "rgba(239, 100, 97, 1)";
-    const balancesStakeholdersColor = "rgba(179, 178, 170 , 1)";
-    const adaptabilityColor = "rgba(69, 69, 69, 1)";
-    const selfGrowthColor = "rgba(72, 112, 79, 1)";
+    const interconnectivityColor = "rgba(116, 132, 176, 1)";
+    const communicationColor = "rgba(0, 159, 147, 1)";
+    const balancesStakeholdersColor = "rgba(239, 100, 97, 1)";
+    const adaptabilityColor = "rgba(48, 107, 172, 1)";
+    const selfGrowthColor = "rgba(242, 140, 63, 1)";
 
     const lockedColor = "#ccc";
     const unlockedColor = "#def";
@@ -104,6 +104,7 @@
         Communication: 0,
         BalancesStakeholders: 0,
         Adaptability: 0,
+        SelfGrowth: 0,
     };
 
     /* ********************************************************************************* */
@@ -292,7 +293,7 @@
         if (p.node) {
             let nodeId = p.node;
             let curNode = nodes.get(nodeId);
-            populatePopup(curNode);
+            populatePopupForNode(curNode);
         }
     });
 
@@ -301,7 +302,7 @@
         popup.style.opacity = "0";
     });
 
-    function populatePopup(node) {
+    function populatePopupForNode(node) {
         if (node.disabled === true) {
             return;
         }
@@ -346,12 +347,25 @@
     const pbElements = {
         DrivesResults: drivesResultColor,
         StrategicMindset: StrategicMindsetColor,
-        Alignment: alignmentColor,
         Ambiguity: ambiguityColor,
+        Alignment: alignmentColor,
         Interconnectivity: interconnectivityColor,
         Communication: communicationColor,
         BalancesStakeholders: balancesStakeholdersColor,
         Adaptability: adaptabilityColor,
+        SelfGrowth: selfGrowthColor,
+    };
+
+    const pbElementTitle = {
+        DrivesResults: "Drives Results",
+        StrategicMindset: "Strategic Mindset",
+        Alignment: "Alignment",
+        Ambiguity: "Ambiguity",
+        Interconnectivity: "Interconnectivity",
+        Communication: "Communication",
+        BalancesStakeholders: "Balances Stakeholders",
+        Adaptability: "Adaptability",
+        SelfGrowth: "Self-Growth",
     };
 
     function renderProfressBar() {
@@ -365,6 +379,11 @@
             newPBElement.style.backgroundColor = value;
             newPBElement.innerText = skillPointsUsage[key];
 
+            var PRTooltip = document.createElement("div");
+            PRTooltip.classList.add("progress-tooltip");
+            PRTooltip.innerText = pbElementTitle[key];
+
+            newPBElement.appendChild(PRTooltip);
             progressBarConatiner.appendChild(newPBElement);
         }
     }

@@ -64,7 +64,7 @@ body {
     border-radius: 10px;
     background-color: rgba(49, 54, 56, 0.8);
     box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
@@ -79,7 +79,7 @@ body {
     height: 100%;
     width: 100px;
     flex-shrink: 0;
-    background-color: red;
+    /* background-color: red; */
 }
 
 #summary {
@@ -94,8 +94,6 @@ body {
     height: 15px;
     width: 100%;
     display: flex;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
 #progressBar .progress {
@@ -104,6 +102,48 @@ body {
     color: rgba(232, 233, 235, 1);
     text-shadow: 1px 1px 3px rgba(49, 54, 56, 1);
     font-size: 12px;
+    position: relative;
+    cursor: default;
+}
+
+#progressBar .progress:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#progressBar .progress:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#progressBar .progress-tooltip {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s linear;
+    background-color: rgba(49, 54, 56, 1);
+    padding: 5px;
+    border-radius: .2rem;
+    box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
+}
+
+#progressBar .progress:hover .progress-tooltip {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: visible;
+    opacity: 1;
+}
+
+#progressBar .progress-tooltip::after {
+    content: " ";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgba(49, 54, 56, 1) transparent;
 }
 
 #action {
@@ -115,13 +155,13 @@ body {
 #stopButton {
     height: 50%;
     width: 100%;
-    background-color: black;
+    /* background-color: black; */
 }
 
 #resetButton {
     height: 50%;
     width: 100%;
-    background-color: gray;
+    /* background-color: gray; */
 }
 
 #skilltree {
