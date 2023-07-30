@@ -76,10 +76,11 @@ let network = new vis.Network(container, data, options);
 
 let stopSelection = false;
 
-// action selectors
+// dom selectors
 let skillPointSelector = document.getElementById("skillPoints");
 let stopButtonSelector = document.getElementById("stopButton");
 let resetButtonSelector = document.getElementById("resetButton");
+let loadingScreenSelector = document.getElementById("loadingScreen");
 
 let skillPoints = defaultNumberOfSkillPoints;
 var skillPointsUsage = {
@@ -444,7 +445,12 @@ function stopSkilltree() {
 window.onload = () => {
     renderProfressBar();
 
-    // start the timer
-    timer = true;
-    toggleTimer();
+    // hide loading screen
+    setTimeout(function () {
+        loadingScreenSelector.style.opacity = "0";
+
+        // start the timer
+        timer = true;
+        toggleTimer();
+    }, 1000);
 };

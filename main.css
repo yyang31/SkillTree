@@ -74,6 +74,54 @@ body {
     border-color: transparent transparent rgba(49, 54, 56, 1) transparent;
 }
 
+/*********** loading screen ***********/
+#loadingScreen {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to right top, #b1a9c9, #d7aac9, #f7aeb7, #ffba9d, #f7d08a);
+    z-index: 5000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0s, opacity 0.2s linear;
+    pointer-events: none;
+}
+
+.loader {
+    border: 16px solid rgba(232, 233, 235, 1);
+    border-radius: 50%;
+    border-top: 16px solid rgba(160, 196, 157, 1);
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 /*********** menu ***********/
 #menuBarContainer {
     width: 100%;
