@@ -24,7 +24,7 @@ const lockedOpacity = 0;
 const unlockedOpacity = 0.25;
 const selectedOpacity = 1;
 
-const defaultNumberOfSkillPoints = 50;
+const defaultNumberOfSkillPoints = 3;
 
 const container = document.getElementById("skilltree");
 const data = {
@@ -86,6 +86,13 @@ const options = {
 };
 let network = new vis.Network(container, data, options);
 
+let stopSelection = false;
+
+// action selectors
+let skillPointSelector = document.getElementById("skillPoints");
+let stopButtonSelector = document.getElementById("stopButton");
+let resetButtonSelector = document.getElementById("resetButton");
+
 let skillPoints = defaultNumberOfSkillPoints;
 var skillPointsUsage = {
     DrivesResults: 0,
@@ -107,7 +114,7 @@ var skillPointsUsage = {
     	**/
 const buildGraphDisplay = function () {
     //update skillPoints display
-    document.getElementById("skillPoints").innerHTML = skillPoints;
+    skillPointSelector.innerHTML = skillPoints;
 
     /* recursive subTree (classic) */
     /*
@@ -249,7 +256,7 @@ network.once("stabilized", () => {
     		on click, update graph nodes selected status, handle skillPoints
     	**/
 network.on("click", (p) => {
-    if (p.nodes.length) {
+    if (!stopSelection && p.nodes.length) {
         let curNode = nodes.get(p.nodes[0]);
         if (curNode.disabled === true) {
             return;
@@ -265,13 +272,16 @@ network.on("click", (p) => {
                 skillPoints += curNode.refund;
                 skillPointsUsage[curNode.group] -= 1;
             } else {
-                curNode.selected = true;
-                skillPoints -= curNode.value;
-                skillPointsUsage[curNode.group] += 1;
+                if (skillPoints > 0) {
+                    curNode.selected = true;
+                    skillPoints -= curNode.value;
+                    skillPointsUsage[curNode.group] += 1;
+                }
             }
             nodes.update(curNode);
-            document.getElementById("skillPoints").innerHTML = skillPoints;
+            skillPointSelector.innerHTML = skillPoints;
 
+            updateAction();
             renderProfressBar();
         } else {
             // No need to alert, those are displayed in tooltips
@@ -338,22 +348,6 @@ function populatePopupForNode(node) {
     popup.style.visibility = "visible";
 }
 
-function restSkilltree() {
-    nodes.getIds().forEach((nodeId) => {
-        let curNode = nodes.get(nodeId);
-        curNode.selected = false;
-    });
-    buildGraphDisplay();
-
-    skillPoints = 50;
-    document.getElementById("skillPoints").innerHTML = skillPoints;
-
-    Object.keys(skillPointsUsage).forEach(function (key) {
-        skillPointsUsage[key] = 0;
-    });
-    renderProfressBar();
-}
-
 const pbElements = {
     DrivesResults: drivesResultColor,
     StrategicMindset: StrategicMindsetColor,
@@ -398,6 +392,88 @@ function renderProfressBar() {
     }
 }
 
+let timer = false;
+let hour = 0;
+let minute = 0;
+let second = 0;
+let count = 0;
+
+function toggleTimer() {
+    if (timer) {
+        count++;
+
+        if (count == 100) {
+            second++;
+            count = 0;
+        }
+
+        if (second == 60) {
+            minute++;
+            second = 0;
+        }
+
+        if (minute == 60) {
+            hour++;
+            minute = 0;
+            second = 0;
+        }
+
+        let hrString = hour < 10 ? "0" + hour : hour;
+        let minString = minute < 10 ? "0" + minute : minute;
+        let secString = second < 10 ? "0" + second : second;
+        let timerString = `${hrString}:${minString}:${secString}`;
+
+        document.getElementById("timer").innerText = timerString;
+
+        setTimeout(toggleTimer, 10);
+    }
+}
+
+function updateAction() {
+    if (skillPoints == 0) {
+        skillPointSelector.style.display = "none";
+        stopButtonSelector.style.display = "flex";
+    } else {
+        skillPointSelector.style.display = "flex";
+        stopButtonSelector.style.display = "none";
+    }
+}
+
+function restSkilltree() {
+    if (!stopSelection) {
+        nodes.getIds().forEach((nodeId) => {
+            let curNode = nodes.get(nodeId);
+            curNode.selected = false;
+        });
+        buildGraphDisplay();
+
+        skillPoints = defaultNumberOfSkillPoints;
+        skillPointSelector.innerHTML = skillPoints;
+
+        Object.keys(skillPointsUsage).forEach(function (key) {
+            skillPointsUsage[key] = 0;
+        });
+
+        updateAction();
+        renderProfressBar();
+    }
+}
+
+function stopSkilltree() {
+    stopSelection = true;
+
+    stopButtonSelector.classList.add("disabled");
+    resetButtonSelector.classList.add("disabled");
+
+    // stop the timer
+    timer = false;
+    toggleTimer();
+}
+
 window.onload = () => {
     renderProfressBar();
+
+    // start the timer
+    timer = true;
+    toggleTimer();
 };
