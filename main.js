@@ -114,7 +114,7 @@ var skillPointsUsage = {
     	**/
 const buildGraphDisplay = function () {
     //update skillPoints display
-    skillPointSelector.innerHTML = skillPoints;
+    updateSkillPoints();
 
     /* recursive subTree (classic) */
     /*
@@ -279,7 +279,7 @@ network.on("click", (p) => {
                 }
             }
             nodes.update(curNode);
-            skillPointSelector.innerHTML = skillPoints;
+            updateSkillPoints();
 
             updateAction();
             renderProfressBar();
@@ -384,7 +384,7 @@ function renderProfressBar() {
         newPBElement.innerText = skillPointsUsage[key];
 
         var PRTooltip = document.createElement("div");
-        PRTooltip.classList.add("progress-tooltip");
+        PRTooltip.classList.add("tooltip");
         PRTooltip.innerText = pbElementTitle[key];
 
         newPBElement.appendChild(PRTooltip);
@@ -429,6 +429,17 @@ function toggleTimer() {
     }
 }
 
+function updateSkillPoints() {
+    skillPointSelector.innerHTML = "";
+
+    var SPTooltip = document.createElement("div");
+    SPTooltip.classList.add("tooltip");
+    SPTooltip.innerText = `${skillPoints} out of ${defaultNumberOfSkillPoints} points have been used`;
+
+    skillPointSelector.innerText = skillPoints;
+    skillPointSelector.appendChild(SPTooltip);
+}
+
 function updateAction() {
     if (skillPoints == 0) {
         skillPointSelector.style.display = "none";
@@ -448,14 +459,14 @@ function restSkilltree() {
         buildGraphDisplay();
 
         skillPoints = defaultNumberOfSkillPoints;
-        skillPointSelector.innerHTML = skillPoints;
+        updateSkillPoints();
 
         Object.keys(skillPointsUsage).forEach(function (key) {
             skillPointsUsage[key] = 0;
         });
+        renderProfressBar();
 
         updateAction();
-        renderProfressBar();
     }
 }
 
