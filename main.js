@@ -16,9 +16,7 @@ const balancesStakeholdersColor = "rgba(239, 100, 97, 1)";
 const adaptabilityColor = "rgba(48, 107, 172, 1)";
 const selfGrowthColor = "rgba(242, 140, 63, 1)";
 
-const lockedColor = "#ccc";
-const unlockedColor = "#def";
-const selectedColor = "#33C3F0";
+const edgeColor = "rgba(49, 54, 56, 0.5)";
 
 const lockedOpacity = 0;
 const unlockedOpacity = 0.25;
@@ -51,7 +49,7 @@ const options = {
         opacity: lockedOpacity,
     },
     edges: {
-        color: lockedColor,
+        color: edgeColor,
         dashes: true,
         arrows: {
             to: {
