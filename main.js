@@ -58,10 +58,6 @@ const options = {
                 scaleFactor: 0.5,
             },
         },
-        // physics: false,
-        // smooth: {
-        //     type: "continuous",
-        // },
     },
     groups: {
         SelfGrowth: { color: selfGrowthColor },
@@ -75,14 +71,6 @@ const options = {
         Adaptability: { color: adaptabilityColor },
     },
     layout: { randomSeed: 0 },
-    // physics: {
-    //     enabled: true,
-    // },
-    // layout: {
-    //     hierarchical: {
-    //         direction: "RL",
-    //     },
-    // },
 };
 let network = new vis.Network(container, data, options);
 
@@ -109,33 +97,15 @@ var skillPointsUsage = {
 /* ********************************************************************************* */
 
 /**
-    		update all graph nodes with selectedParents and subTree Requirements
-    		change visuals based on status (values / requirements / selected)
-    	**/
+    update all graph nodes with selectedParents and subTree Requirements
+    change visuals based on status (values / requirements / selected)
+**/
 const buildGraphDisplay = function () {
     //update skillPoints display
     updateSkillPoints();
 
-    /* recursive subTree (classic) */
-    /*
-    		const getRSubtree = nodeId => {
-    			let childs = network.getConnectedNodes(nodeId, "from");
-    			if (childs.length > 0) {
-    				let subtree = childs;
-    				for (let i = 0; i < childs.length; i++) {
-    					let nodeChilds = getSubtree(childs[i]);
-    					if (nodeChilds) {
-    						subtree = subtree.concat(nodeChilds);
-    					}
-    				}
-    				return subtree;
-    			}
-    			return false;
-    		};
-    		*/
-
     /* SUBTREE */
-    /* glitch subtree */
+    /* subtree */
     const getSubtree = (nodeId) => {
         let childs = network.getConnectedNodes(nodeId, "from");
         for (let i = 0; i < childs.length; i++) {
@@ -146,7 +116,7 @@ const buildGraphDisplay = function () {
         return childs;
     };
 
-    /* glitch parentTree */
+    /* parentTree */
     const getParentstree = (nodeId) => {
         let parents = network.getConnectedNodes(nodeId, "to");
         for (let i = 0; i < parents.length; i++) {
@@ -161,7 +131,6 @@ const buildGraphDisplay = function () {
         let curNode = nodes.get(nodeId);
 
         // updating nodes with subtree
-        // example using reduce
         curNode.requiredSubtree = getSubtree(nodeId).reduce(
             (requiredNodes, id) => {
                 const childNode = nodes.get(id);
@@ -176,7 +145,6 @@ const buildGraphDisplay = function () {
         );
 
         // updating nodes with parentspath
-        // example with forEach
         let selectedParents = [];
         getParentstree(nodeId).forEach((node) => {
             const parentNode = nodes.get(node);
@@ -217,15 +185,7 @@ const buildGraphDisplay = function () {
             ) * 0.9
         );
 
-        // curNode.title =
-        //     curNode.selected === true
-        //         ? "deselect this skill"
-        //         : curNode.locked === ""
-        //         ? "select this skill"
-        //         : curNode.locked.replace(/\n/g, "<br/>");
-
         curNode.borderWidth = curNode.selected == true ? 4 : 0;
-        // curNode.borderWidthSelected = curNode.selected == true ? 2 : 1;
 
         nodes.update(curNode);
 
@@ -242,8 +202,8 @@ const buildGraphDisplay = function () {
 
 /* EVENTS HANDLING */
 /**
-    		init
-    	**/
+    init
+**/
 network.once("stabilized", () => {
     buildGraphDisplay();
 
@@ -253,8 +213,8 @@ network.once("stabilized", () => {
 });
 
 /**
-    		on click, update graph nodes selected status, handle skillPoints
-    	**/
+    on click, update graph nodes selected status, handle skillPoints
+**/
 network.on("click", (p) => {
     if (!stopSelection && p.nodes.length) {
         let curNode = nodes.get(p.nodes[0]);
@@ -283,9 +243,6 @@ network.on("click", (p) => {
 
             updateAction();
             renderProfressBar();
-        } else {
-            // No need to alert, those are displayed in tooltips
-            // alert(curNode.locked);
         }
         buildGraphDisplay();
         popup.style.opacity = "0";
@@ -479,6 +436,9 @@ function stopSkilltree() {
     // stop the timer
     timer = false;
     toggleTimer();
+
+    // fit the network graph
+    network.fit();
 }
 
 window.onload = () => {
