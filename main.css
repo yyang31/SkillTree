@@ -88,7 +88,6 @@ body {
 
 #menuBar {
     display: flex;
-    height: 75px;
     width: 100%;
     border-radius: 10px;
     padding: 10px;
@@ -114,13 +113,16 @@ body {
 }
 
 #progressBar {
-    height: 15px;
+    height: 20px;
     width: 100%;
     display: flex;
 }
 
 #progressBar .progress {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     color: rgba(232, 233, 235, 1);
     text-shadow: 1px 1px 3px rgba(49, 54, 56, 1);
@@ -140,7 +142,7 @@ body {
 }
 
 #progressBar .progress:hover .tooltip {
-    top: 20px;
+    top: 25px;
     left: 50%;
     transform: translateX(-50%);
     opacity: 1;
@@ -151,7 +153,7 @@ body {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 10px 10px 0 10px;
 }
 
 #timer {
@@ -175,7 +177,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 45%;
-    padding: 15px 20px;
+    padding: 5px 20px;
     margin: auto;
     cursor: default;
 }
