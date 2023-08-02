@@ -438,10 +438,28 @@ function stopSkilltree() {
 
     // fit the network graph
     network.fit();
+
+    document.getElementById("nextContainer").style.display = "block";
+}
+
+function generateId(length) {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+        result += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+        );
+        counter += 1;
+    }
+
+    document.getElementById("userId").innerText = result;
 }
 
 window.onload = () => {
     renderProfressBar();
+    generateId(6);
 
     // hide loading screen
     setTimeout(function () {
