@@ -285,6 +285,15 @@ body {
     background-color: rgba(232, 233, 235, 0.2);
 }
 
+#screenshotButton {
+    display: none;
+    background-color: rgba(232, 233, 235, 1);
+}
+
+#screenshotButton svg {
+    margin-left: 10px;
+}
+
 #skilltree {
     width: 100vw;
     height: 100vh;
@@ -323,8 +332,16 @@ body {
 }
 
 #nextContainer a {
-    display: block;
+    display: flex;
     padding: 10px 20px;
     border-radius: 1rem;
     background-color: rgba(160, 196, 157, 1);
+}
+
+#nextContainer svg {
+    margin-left: 10px;
+}
+
+#screenshotContainer {
+    display: none;
 }

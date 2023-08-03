@@ -76,6 +76,7 @@ let stopSelection = false;
 
 // dom selectors
 let skillPointSelector = document.getElementById("skillPoints");
+let screenshotButtonSelector = document.getElementById("screenshotButton");
 let stopButtonSelector = document.getElementById("stopButton");
 let resetButtonSelector = document.getElementById("resetButton");
 let loadingScreenSelector = document.getElementById("loadingScreen");
@@ -429,8 +430,9 @@ function restSkilltree() {
 function stopSkilltree() {
     stopSelection = true;
 
-    stopButtonSelector.classList.add("disabled");
-    resetButtonSelector.classList.add("disabled");
+    stopButtonSelector.style.display = "none";
+    resetButtonSelector.style.display = "none";
+    screenshotButtonSelector.style.display = "flex";
 
     // stop the timer
     timer = false;
@@ -455,6 +457,20 @@ function generateId(length) {
     }
 
     document.getElementById("userId").innerText = result;
+}
+
+function screenShot() {
+    domtoimage
+        .toPng(document.body)
+        .then(function (dataUrl) {
+            var a = document.getElementById("screenshotContainer");
+            a.href = dataUrl;
+            a.download = "skillTree.png";
+            a.click();
+        })
+        .catch(function (error) {
+            console.error("screenshot download failed", error);
+        });
 }
 
 window.onload = () => {
