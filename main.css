@@ -103,6 +103,12 @@ body {
     animation: spin 2s linear infinite;
 }
 
+#loadingError {
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+}
+
 /* Safari */
 @-webkit-keyframes spin {
     0% {
