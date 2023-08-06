@@ -205,6 +205,10 @@ body {
     visibility: visible;
 }
 
+#progressBar .progress svg {
+    margin-left: 10px;
+}
+
 #bottomMenu {
     display: flex;
     flex-flow: row;

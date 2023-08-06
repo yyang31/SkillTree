@@ -60,15 +60,15 @@ const options = {
         chosen: false,
     },
     groups: {
-        SelfGrowth: { color: selfGrowthColor },
         DrivesResults: { color: drivesResultColor },
         StrategicMindset: { color: StrategicMindsetColor },
-        Alignment: { color: alignmentColor },
         Ambiguity: { color: ambiguityColor },
+        Alignment: { color: alignmentColor },
         Interconnectivity: { color: interconnectivityColor },
         Communication: { color: communicationColor },
         BalancesStakeholders: { color: balancesStakeholdersColor },
         Adaptability: { color: adaptabilityColor },
+        SelfGrowth: { color: selfGrowthColor },
     },
     layout: { randomSeed: 0 },
 };
@@ -85,17 +85,8 @@ let resetButtonSelector = document.getElementById("resetButton");
 let loadingScreenSelector = document.getElementById("loadingScreen");
 
 let skillPoints = defaultNumberOfSkillPoints;
-var skillPointsUsage = {
-    DrivesResults: 0,
-    StrategicMindset: 0,
-    Alignment: 0,
-    Ambiguity: 0,
-    Interconnectivity: 0,
-    Communication: 0,
-    BalancesStakeholders: 0,
-    Adaptability: 0,
-    SelfGrowth: 0,
-};
+var skillPointsUsage = {}; // total number of points assigned to each group
+var maxPointsPerGroup = {}; // max number of points each groups have
 
 /* ********************************************************************************* */
 
@@ -233,12 +224,16 @@ network.on("click", (p) => {
                 });
                 curNode.selected = false;
                 skillPoints += curNode.refund;
+
+                var groupName = curNode.group;
                 skillPointsUsage[curNode.group] -= 1;
             } else {
                 if (skillPoints > 0) {
                     curNode.selected = true;
                     skillPoints -= curNode.value;
-                    skillPointsUsage[curNode.group] += 1;
+
+                    var groupName = curNode.group;
+                    skillPointsUsage[groupName] += 1;
                 }
             }
             nodes.update(curNode);
@@ -332,6 +327,24 @@ const pbElementTitle = {
     SelfGrowth: "Self-Growth",
 };
 
+function populateSkillPointsUsage() {
+    network.groups._groupNames.forEach((groupName) => {
+        skillPointsUsage[groupName] = 0;
+    });
+}
+
+function populateMaxPointsPerGroup() {
+    network.body.data.nodes._data.forEach((node) => {
+        var groupName = node.group;
+
+        if (groupName in maxPointsPerGroup) {
+            maxPointsPerGroup[groupName] += 1;
+        } else {
+            maxPointsPerGroup[groupName] = 1;
+        }
+    });
+}
+
 function renderProfressBar() {
     const progressBarConatiner = document.getElementById("progressBar");
 
@@ -346,6 +359,14 @@ function renderProfressBar() {
         var PRTooltip = document.createElement("div");
         PRTooltip.classList.add("tooltip");
         PRTooltip.innerText = pbElementTitle[key];
+
+        if (skillPointsUsage[key] == maxPointsPerGroup[key]) {
+            newPBElement.innerHTML =
+                newPBElement.innerText +
+                `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                    </svg>`;
+        }
 
         newPBElement.appendChild(PRTooltip);
         progressBarConatiner.appendChild(newPBElement);
@@ -425,9 +446,7 @@ function resetSkilltree() {
         skillPoints = defaultNumberOfSkillPoints;
         updateSkillPoints();
 
-        Object.keys(skillPointsUsage).forEach(function (key) {
-            skillPointsUsage[key] = 0;
-        });
+        populateSkillPointsUsage();
         renderProfressBar();
 
         updateAction();
@@ -511,6 +530,8 @@ window.onload = () => {
     mobileAndTabletCheck();
     if (hasLoadingError) return;
 
+    populateSkillPointsUsage();
+    populateMaxPointsPerGroup();
     renderProfressBar();
     generateId(6);
 
