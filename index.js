@@ -22,7 +22,9 @@ const lockedOpacity = 0;
 const unlockedOpacity = 0.25;
 const selectedOpacity = 1;
 
-const defaultNumberOfSkillPoints = 3;
+const zoomLimit = 0.5;
+
+const defaultNumberOfSkillPoints = 5;
 
 const container = document.getElementById("skilltree");
 const data = {
@@ -200,10 +202,18 @@ const buildGraphDisplay = function () {
 **/
 network.once("stabilized", () => {
     buildGraphDisplay();
+    recenter();
+});
 
-    network.fit({
-        nodes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    });
+/**
+    limit zoom
+**/
+network.on("zoom", function () {
+    if (network.getScale() <= zoomLimit) {
+        network.moveTo({
+            scale: zoomLimit,
+        });
+    }
 });
 
 /**
@@ -467,7 +477,9 @@ function stopSkilltree() {
     // fit the network graph
     network.fit();
 
-    document.getElementById("nextContainer").style.display = "block";
+    document.getElementById("nextButton").style.display = "block";
+
+    screenShot();
 }
 
 function generateId(length) {
@@ -482,7 +494,7 @@ function generateId(length) {
         counter += 1;
     }
 
-    document.getElementById("userId").innerText = result;
+    document.getElementById("userId").innerHTML += result;
 }
 
 function screenShot() {
@@ -497,6 +509,12 @@ function screenShot() {
         .catch(function (error) {
             console.error("screenshot download failed", error);
         });
+}
+
+function recenter() {
+    network.fit({
+        nodes: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    });
 }
 
 function mobileAndTabletCheck() {

@@ -3,6 +3,7 @@ let nodes = new vis.DataSet([
         id: 1,
         value: 1,
         group: "Carrer",
+        label: "What skills are important in\nupper management preparation?",
         image: "images/placeholder.png",
         value: 40,
         disabled: true,

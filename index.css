@@ -63,6 +63,7 @@ body {
     z-index: 200;
     transition: visibility 0s, opacity 0.2s linear;
     pointer-events: none;
+    min-width: 140px;
 }
 
 .tooltip::after {
@@ -140,6 +141,8 @@ body {
     transform: translateX(-50%);
     z-index: 150;
     padding: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 #menuBar {
@@ -149,7 +152,6 @@ body {
     padding: 10px;
     background-color: rgba(49, 54, 56, 0.8);
     box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
-    flex-flow: column;
 }
 
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
@@ -160,12 +162,30 @@ body {
     }
 }
 
+#leftMenu {
+    display: flex;
+}
+
+#rightMenu {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 #topMenu {
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
     padding: 0 10px;
+}
+
+#pageTitle {
+    text-align: right;
+    font-size: 20px;
+    display: flex;
+    margin: auto 10px;
+    font-weight: bolder;
 }
 
 #progressBar {
@@ -203,6 +223,7 @@ body {
     transform: translateX(-50%);
     opacity: 1;
     visibility: visible;
+    min-width: initial;
 }
 
 #progressBar .progress svg {
@@ -236,14 +257,9 @@ body {
     border-radius: 1rem;
     justify-content: center;
     align-items: center;
-    height: 45%;
     padding: 5px 20px;
-    margin: auto;
+    margin: auto auto auto 10px;
     cursor: default;
-}
-
-.action-button:last-child {
-    margin-left: 10px;
 }
 
 .action-button:not(.disabled) {
@@ -260,6 +276,19 @@ body {
     box-shadow: inset 0px 3px 10px rgb(49 54 56 / 0.5), 0 0 0 rgb(49 54 56 / 0.2);
 }
 
+#userId {
+    border: 1px solid rgba(49, 54, 56, 0.2);
+    position: relative;
+}
+
+#userId:hover .tooltip {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    visibility: visible;
+}
+
 #skillPoints {
     border: 1px solid rgba(49, 54, 56, 0.2);
     position: relative;
@@ -273,10 +302,6 @@ body {
     visibility: visible;
 }
 
-#skillPoints .tooltip {
-    min-width: 140px;
-}
-
 #stopButton {
     background-color: rgba(186, 39, 74, 1);
     color: rgba(232, 233, 235, 1);
@@ -287,8 +312,28 @@ body {
     background-color: rgba(186, 39, 74, 0.2);
 }
 
+#recenterButton {
+    background-color: rgba(232, 233, 235, 1);
+}
+
+#recenterButton:hover .tooltip {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    visibility: visible;
+}
+
 #resetButton {
     background-color: rgba(232, 233, 235, 1);
+}
+
+#resetButton:hover .tooltip {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    visibility: visible;
 }
 
 #resetButton.disabled {
@@ -304,52 +349,21 @@ body {
     margin-left: 10px;
 }
 
+#nextButton {
+    display: none;
+    background-color: rgba(0, 159, 147, 1);
+    color: rgba(232, 233, 235, 1);
+    text-decoration: none;
+}
+
+#nextButton svg {
+    margin-left: 10px;
+}
+
 #skilltree {
     width: 100vw;
     height: 100vh;
     border: 0;
-}
-
-#userIdContainer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 10px;
-}
-
-#userId {
-    font-weight: bold;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: rgba(49, 54, 56, 0.8);
-    box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
-}
-
-@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-    #userId {
-        background-color: rgba(49, 54, 56, .2);
-        -webkit-backdrop-filter: blur(5px);
-        backdrop-filter: blur(5px);
-    }
-}
-
-#nextContainer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 10px;
-    display: none;
-}
-
-#nextContainer a {
-    display: flex;
-    padding: 10px 20px;
-    border-radius: 1rem;
-    background-color: rgba(160, 196, 157, 1);
-}
-
-#nextContainer svg {
-    margin-left: 10px;
 }
 
 #screenshotContainer {
