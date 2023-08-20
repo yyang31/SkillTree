@@ -7,15 +7,126 @@
     <meta name="keywords" content="Skill Activity Static">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="common.css" />
     <link rel="stylesheet" type="text/css" href="static.css" />
 </head>
 
 <body>
+    <div id="loadingScreen">
+        <div class="loader"></div>
+        <div id="loadingError"></div>
+    </div>
+
+    <div id="instructionPanel">
+        <div id="instructionToggleButton" class="action-button"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path
+                    d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+            </svg><span>Close</span></div>
+        <div id="instructionPanelContent">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Allocate exactly <b>50 points</b> across the skill branches.</li>
+                <li>Click stop when done.</li>
+                <li>A screenshot will be automatically downloaded, which you will upload in the survey.</li>
+                <li>Survey Link will appear. Follow the link to continue with the activity.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="menuBarContainer">
+        <div id="menuBar">
+            <div id="leftMenu">
+                <div id="pageTitle">Skill</br>Activity</div>
+            </div>
+            <div id="rightMenu">
+                <div id="timer"></div>
+                <div id="action">
+                    <div id="userId" class="action-button disabled">
+                        <div class="tooltip">Your unique ID</div>
+                    </div>
+                    <div id="stopButton" class="action-button" onclick="stopSkilltree()">
+                        Stop
+                        <div class="tooltip">Stop the activity</div>
+                    </div>
+                    <div id="screenshotButton" class="action-button" onclick="screenShot()">
+                        screenshot
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708l2 2z" />
+                            <path
+                                d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
+                        </svg>
+                        <div class="tooltip">Download the screenshot</div>
+                    </div>
+                    <a id="nextButton" class="action-button"
+                        href="https://sfsu.co1.qualtrics.com/jfe/form/SV_5c1AaBeKt38JCjs" target="_blank">
+                        Continue to Survey
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z" />
+                        </svg>
+                        <div class="tooltip">Continue to the survey</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="categoryInputs">
+        <div class="input-row">
+            <div class="input-col">
+                <h3>Drives Results</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+            <div class="input-col">
+                <h3>Strategic Mindset</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+            <div class="input-col">
+                <h3>Alignment</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-col">
+                <h3>Amiguity</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+            <div class="input-col">
+                <h3>Interconnectivity</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+            <div class="input-col">
+                <h3>Communication</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-col">
+                <h3>Balances Stakeholders</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+            <div class="input-col">
+                <h3>Adaptability</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+            <div class="input-col">
+                <h3>Self-Growth</h3>
+                <textarea oninput="auto_grow(this)"></textarea>
+            </div>
+        </div>
+    </div>
     <img src="/images/static.png">
-    <textarea oninput="auto_grow(this)"></textarea>
+    <a id="screenshotContainer"></a>
 </body>
 
 <footer>
+    <script src="libraries/dom-to-image.js"></script>
+    <script src="common.js"></script>
     <script src="static.js"></script>
 </footer>
 
