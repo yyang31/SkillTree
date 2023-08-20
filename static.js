@@ -3,6 +3,9 @@ let screenshotButtonSelector = document.getElementById("screenshotButton");
 let stopButtonSelector = document.getElementById("stopButton");
 let loadingScreenSelector = document.getElementById("loadingScreen");
 let categoryInputsSelector = document.getElementById("categoryInputs");
+let staticTreeContainerSelector = document.getElementById(
+    "staticTreeContainer"
+);
 
 let hasLoadingError = false;
 
@@ -47,6 +50,7 @@ window.onload = () => {
     // hide loading screen
     setTimeout(function () {
         loadingScreenSelector.style.opacity = "0";
+        staticTreeContainerSelector.style.display = "block";
 
         // start the timer
         timer = true;

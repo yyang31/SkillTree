@@ -1,7 +1,3 @@
-img {
-    width: 100%;
-}
-
 #categoryInputs {
     display: flex;
     flex-direction: column;
@@ -188,4 +184,14 @@ img {
 
 #screenshotContainer {
     display: none;
+}
+
+#staticTreeContainer {
+    display: none;
+}
+
+#staticTreeContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
