@@ -76,7 +76,7 @@ img {
     flex-grow: 1;
     flex-flow: row;
     justify-content: space-between;
-    padding: 10px 10px 0 10px;
+    padding: 10px;
 }
 
 #pageTitle {
