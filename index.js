@@ -1,5 +1,10 @@
 // common selectors
 var popup = document.getElementById("popup");
+let skillPointSelector = document.getElementById("skillPoints");
+let screenshotButtonSelector = document.getElementById("screenshotButton");
+let stopButtonSelector = document.getElementById("stopButton");
+let resetButtonSelector = document.getElementById("resetButton");
+let loadingScreenSelector = document.getElementById("loadingScreen");
 
 // important colors
 const notBlack = "rgba(49, 54, 56, 1)";
@@ -22,7 +27,7 @@ const lockedOpacity = 0;
 const unlockedOpacity = 0.25;
 const selectedOpacity = 1;
 
-const zoomLimit = 0.5;
+const zoomLimit = 0.25;
 
 const defaultNumberOfSkillPoints = 5;
 
@@ -36,6 +41,7 @@ const options = {
     interaction: {
         selectConnectedEdges: false,
         hover: true,
+        zoomSpeed: 0.5,
     },
     nodes: {
         chosen: false,
@@ -79,12 +85,7 @@ let network = new vis.Network(container, data, options);
 let stopSelection = false;
 let hasLoadingError = false;
 
-// dom selectors
-let skillPointSelector = document.getElementById("skillPoints");
-let screenshotButtonSelector = document.getElementById("screenshotButton");
-let stopButtonSelector = document.getElementById("stopButton");
-let resetButtonSelector = document.getElementById("resetButton");
-let loadingScreenSelector = document.getElementById("loadingScreen");
+let mousePosition = {};
 
 let skillPoints = defaultNumberOfSkillPoints;
 var skillPointsUsage = {}; // total number of points assigned to each group
@@ -209,9 +210,12 @@ network.once("stabilized", () => {
     limit zoom
 **/
 network.on("zoom", function () {
+    console.log(mousePosition);
+    console.log(network.DOMtoCanvas(mousePosition));
     if (network.getScale() <= zoomLimit) {
         network.moveTo({
             scale: zoomLimit,
+            position: network.DOMtoCanvas(mousePosition),
         });
     }
 });
@@ -259,11 +263,17 @@ network.on("click", (p) => {
 
 // functionality for popup to show on mouseover
 network.on("hoverNode", function (p) {
-    if (p.node) {
+    if (p.node && p.node != 1) {
+        network.canvas.body.container.style.cursor = "pointer";
+
         let nodeId = p.node;
         let curNode = nodes.get(nodeId);
         populatePopupForNode(curNode);
     }
+});
+
+network.on("blurNode", function () {
+    network.canvas.body.container.style.cursor = "default";
 });
 
 // functionality for popup to hide on mouseout
@@ -479,7 +489,10 @@ function stopSkilltree() {
 
     document.getElementById("nextButton").style.display = "block";
 
-    screenShot();
+    // wait for the network to re-center
+    setTimeout(function () {
+        screenShot();
+    }, 1000);
 }
 
 function generateId(length) {
@@ -542,6 +555,10 @@ function mobileAndTabletCheck() {
 
     return check;
 }
+
+window.addEventListener("mousemove", (event) => {
+    mousePosition = { x: event.clientX, y: event.clientY };
+});
 
 window.onload = () => {
     // check for mobile device
