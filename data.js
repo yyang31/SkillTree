@@ -6,7 +6,8 @@ let nodes = new vis.DataSet([
         label: "What skills are important in\nupper management preparation?",
         image: "images/placeholder.png",
         value: 40,
-        disabled: true,
+        isRoot: true,
+        selected: true,
         x: 0,
         y: 0,
         fixed: {

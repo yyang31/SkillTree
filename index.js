@@ -93,109 +93,81 @@ var maxPointsPerGroup = {}; // max number of points each groups have
 
 /* ********************************************************************************* */
 
-/**
-    update all graph nodes with selectedParents and subTree Requirements
-    change visuals based on status (values / requirements / selected)
-**/
+let buildVisited;
 const buildGraphDisplay = function () {
-    //update skillPoints display
-    updateSkillPoints();
-
-    /* SUBTREE */
-    /* subtree */
-    const getSubtree = (nodeId) => {
-        let childs = network.getConnectedNodes(nodeId, "from");
-        for (let i = 0; i < childs.length; i++) {
-            childs = childs.concat(
-                network.getConnectedNodes(childs[i], "from")
-            );
-        }
-        return childs;
-    };
-
-    /* parentTree */
-    const getParentstree = (nodeId) => {
-        let parents = network.getConnectedNodes(nodeId, "to");
-        for (let i = 0; i < parents.length; i++) {
-            parents = parents.concat(
-                network.getConnectedNodes(parents[i], "to")
-            );
-        }
-        return parents;
-    };
+    buildVisited = new Set();
 
     nodes.getIds().forEach((nodeId) => {
-        let curNode = nodes.get(nodeId);
-
-        // updating nodes with subtree
-        curNode.requiredSubtree = getSubtree(nodeId).reduce(
-            (requiredNodes, id) => {
-                const childNode = nodes.get(id);
-                childNode.disabled !== true &&
-                    childNode.selected !== true &&
-                    typeof requiredNodes.find((o) => o.id === childNode.id) ===
-                        "undefined" &&
-                    requiredNodes.push(childNode);
-                return requiredNodes;
-            },
-            []
-        );
-
-        // updating nodes with parentspath
-        let selectedParents = [];
-        getParentstree(nodeId).forEach((node) => {
-            const parentNode = nodes.get(node);
-            parentNode.selected === true &&
-                typeof selectedParents.find((o) => o.id === parentNode.id) ===
-                    "undefined" &&
-                selectedParents.push(parentNode);
-        });
-        curNode.selectedParents = selectedParents;
-
-        // by default mark all as available
-        curNode.locked = "";
-        //trigger errors for unselected nodes
-        if (curNode.selected !== true) {
-            if (curNode.requiredSubtree.length > 0) {
-                // if missing nodes in path mark as locked
-                curNode.locked += "the skill is locked";
-            }
-        }
-
-        // change node visuals
-        var updateOpacity = lockedOpacity;
-        if (curNode.selected === true || curNode.disabled == true) {
-            updateOpacity = selectedOpacity;
-        } else if (curNode.locked === "") {
-            updateOpacity = unlockedOpacity;
-        }
-        curNode.opacity = updateOpacity;
-
-        curNode.shapeProperties =
-            curNode.locked === ""
-                ? { borderDashes: false }
-                : { borderDashes: [6, 4] };
-        curNode.refund = Math.round(
-            curNode.selectedParents.reduce(
-                (parentsRefund, node) => parentsRefund + node.value,
-                curNode.value
-            ) * 0.9
-        );
-
-        curNode.borderWidth = curNode.selected == true ? 4 : 0;
-
-        nodes.update(curNode);
-
-        const connectedEdges = network.getConnectedEdges(curNode.id);
-        connectedEdges.forEach((id) => {
-            const edge = edges.get(id);
-            if (edge.to == curNode.id) {
-                edge.dashes = curNode.selected === true ? false : true;
-                edges.update(edge);
-            }
-        });
+        this.buildGraphDisplayHelper(nodeId);
     });
 };
+
+function buildGraphDisplayHelper(nodeId) {
+    if (buildVisited.has(nodeId)) {
+        return;
+    }
+
+    let curNode = nodes.get(nodeId);
+
+    curNode.locked = "";
+    let parentsId = network.getConnectedNodes(nodeId, "from");
+    parentsId.forEach((parentId) => {
+        let parentNode = nodes.get(parentId);
+
+        if (!parentNode.selected) {
+            curNode.locked += "the skill is locked";
+            curNode.selected = false;
+        }
+    });
+
+    // change node visuals
+    var updateOpacity = lockedOpacity;
+    if (curNode.selected || curNode.isRoot) {
+        updateOpacity = selectedOpacity;
+    } else if (curNode.locked === "") {
+        updateOpacity = unlockedOpacity;
+    }
+    curNode.opacity = updateOpacity;
+    curNode.borderWidth = curNode.selected ? 4 : 0;
+
+    curNode.shapeProperties =
+        curNode.locked === ""
+            ? { borderDashes: false }
+            : { borderDashes: [6, 4] };
+
+    let childsId = network.getConnectedNodes(nodeId, "to");
+    childsId.forEach((childNodeId) => {
+        buildGraphDisplayHelper(childNodeId);
+    });
+
+    buildVisited.add(nodeId);
+    nodes.update(curNode);
+}
+
+let refundVisited;
+function getRefund(nodeId) {
+    refundVisited = new Set();
+    return getRefundHelper(nodeId);
+}
+
+function getRefundHelper(nodeId) {
+    let refund = 1;
+
+    let childsId = network.getConnectedNodes(nodeId, "to");
+    childsId.forEach((childNodeId) => {
+        if (refundVisited.has(childNodeId)) {
+            return;
+        }
+
+        let childNode = nodes.get(childNodeId);
+        if (childNode.selected) {
+            refund += getRefundHelper(childNodeId);
+        }
+    });
+
+    refundVisited.add(nodeId);
+    return refund;
+}
 
 /* EVENTS HANDLING */
 /**
@@ -224,21 +196,28 @@ network.on("zoom", function () {
 network.on("click", (p) => {
     if (!stopSelection && p.nodes.length) {
         let curNode = nodes.get(p.nodes[0]);
-        if (curNode.disabled === true) {
+        if (curNode.isRoot === true) {
             return;
         }
 
         if (curNode.locked == "") {
             if (curNode.selected == true) {
-                curNode.selectedParents.forEach((node) => {
-                    node.selected = false;
-                    nodes.update(node);
+                let refund = getRefund(curNode.id);
+                let childsId = network.getConnectedNodes(curNode.id, "to");
+                childsId.forEach((childNodeId) => {
+                    let childNode = nodes.get(childNodeId);
+                    childNode.selected = false;
+                    nodes.update(childNode);
                 });
+                // curNode.selectedChilds.forEach((node) => {
+                //     node.selected = false;
+                //     nodes.update(node);
+                // });
                 curNode.selected = false;
-                skillPoints += curNode.refund;
+                skillPoints += refund;
 
                 var groupName = curNode.group;
-                skillPointsUsage[curNode.group] -= 1;
+                skillPointsUsage[curNode.group] -= refund;
             } else {
                 if (skillPoints > 0) {
                     curNode.selected = true;
@@ -266,6 +245,7 @@ network.on("hoverNode", function (p) {
 
         let nodeId = p.node;
         let curNode = nodes.get(nodeId);
+
         populatePopupForNode(curNode);
     }
 });
@@ -280,7 +260,7 @@ network.on("blurNode", function (p) {
 });
 
 function populatePopupForNode(node) {
-    if (node.disabled === true) {
+    if (node.isRoot === true) {
         return;
     }
 
@@ -467,6 +447,7 @@ window.onload = () => {
     mobileAndTabletCheck();
     if (hasLoadingError) return;
 
+    updateSkillPoints();
     populateSkillPointsUsage();
     populateMaxPointsPerGroup();
     renderProfressBar();
