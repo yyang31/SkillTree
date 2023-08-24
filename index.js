@@ -93,17 +93,21 @@ var maxPointsPerGroup = {}; // max number of points each groups have
 
 /* ********************************************************************************* */
 
-let buildVisited;
+let buildVisited = new Set();
 const buildGraphDisplay = function () {
-    buildVisited = new Set();
+    buildVisited.clear();
 
     nodes.getIds().forEach((nodeId) => {
         this.buildGraphDisplayHelper(nodeId);
     });
 };
 
-function buildGraphDisplayHelper(nodeId) {
-    if (buildVisited.has(nodeId)) {
+function updateGraphDisplay(nodeId) {
+    this.buildGraphDisplayHelper(nodeId, true);
+}
+
+function buildGraphDisplayHelper(nodeId, isUpdate = false) {
+    if (!isUpdate && buildVisited.has(nodeId)) {
         return;
     }
 
@@ -137,20 +141,21 @@ function buildGraphDisplayHelper(nodeId) {
 
     let childsId = network.getConnectedNodes(nodeId, "to");
     childsId.forEach((childNodeId) => {
-        buildGraphDisplayHelper(childNodeId);
+        buildGraphDisplayHelper(childNodeId, isUpdate);
     });
 
     buildVisited.add(nodeId);
     nodes.update(curNode);
 }
 
-let refundVisited;
+let refundVisited = new Set();
 function getRefund(nodeId) {
-    refundVisited = new Set();
+    refundVisited.clear();
     return getRefundHelper(nodeId);
 }
 
 function getRefundHelper(nodeId) {
+    let curNode = nodes.get(nodeId);
     let refund = 1;
 
     let childsId = network.getConnectedNodes(nodeId, "to");
@@ -164,6 +169,11 @@ function getRefundHelper(nodeId) {
             refund += getRefundHelper(childNodeId);
         }
     });
+
+    curNode.selected = false;
+    nodes.update(curNode);
+
+    buildVisited.delete(curNode.id);
 
     refundVisited.add(nodeId);
     return refund;
@@ -203,17 +213,6 @@ network.on("click", (p) => {
         if (curNode.locked == "") {
             if (curNode.selected == true) {
                 let refund = getRefund(curNode.id);
-                let childsId = network.getConnectedNodes(curNode.id, "to");
-                childsId.forEach((childNodeId) => {
-                    let childNode = nodes.get(childNodeId);
-                    childNode.selected = false;
-                    nodes.update(childNode);
-                });
-                // curNode.selectedChilds.forEach((node) => {
-                //     node.selected = false;
-                //     nodes.update(node);
-                // });
-                curNode.selected = false;
                 skillPoints += refund;
 
                 var groupName = curNode.group;
@@ -221,19 +220,20 @@ network.on("click", (p) => {
             } else {
                 if (skillPoints > 0) {
                     curNode.selected = true;
+                    nodes.update(curNode);
+
                     skillPoints -= curNode.value;
 
                     var groupName = curNode.group;
                     skillPointsUsage[groupName] += 1;
                 }
             }
-            nodes.update(curNode);
             updateSkillPoints();
 
             updateAction();
-            renderProfressBar();
+            renderProgressBar();
+            updateGraphDisplay(curNode.id);
         }
-        buildGraphDisplay();
         popup.style.opacity = "0";
     }
 });
@@ -343,10 +343,10 @@ function populateMaxPointsPerGroup() {
     });
 }
 
-function renderProfressBar() {
-    const progressBarConatiner = document.getElementById("progressBar");
+function renderProgressBar() {
+    const progressBarContainer = document.getElementById("progressBar");
 
-    progressBarConatiner.innerHTML = "";
+    progressBarContainer.innerHTML = "";
 
     for (const [key, value] of Object.entries(pbElements)) {
         var newPBElement = document.createElement("div");
@@ -367,7 +367,7 @@ function renderProfressBar() {
         }
 
         newPBElement.appendChild(PRTooltip);
-        progressBarConatiner.appendChild(newPBElement);
+        progressBarContainer.appendChild(newPBElement);
     }
 }
 
@@ -406,7 +406,7 @@ function resetSkilltree() {
         updateSkillPoints();
 
         populateSkillPointsUsage();
-        renderProfressBar();
+        renderProgressBar();
 
         updateAction();
     }
@@ -450,7 +450,7 @@ window.onload = () => {
     updateSkillPoints();
     populateSkillPointsUsage();
     populateMaxPointsPerGroup();
-    renderProfressBar();
+    renderProgressBar();
     generateId(6);
 
     // hide loading screen
