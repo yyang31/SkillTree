@@ -11,17 +11,17 @@ const notBlack = "rgba(49, 54, 56, 1)";
 const notWhite = "rgba(232, 233, 235, 1)";
 
 // default color for each category
-const drivesResultColor = "rgba(177, 169, 201, 1)";
+const outcomesDrivenColor = "rgba(177, 169, 201, 1)";
 const StrategicMindsetColor = "rgba(160, 196, 157, 1)";
-const ambiguityColor = "rgba(252, 174, 174, 1)";
-const alignmentColor = "rgba(247, 208, 138, 1)";
+const alignmentColor = "rgba(252, 174, 174, 1)";
+const ambiguityColor = "rgba(247, 208, 138, 1)";
 const interconnectivityColor = "rgba(116, 132, 176, 1)";
 const communicationColor = "rgba(0, 159, 147, 1)";
 const balancesStakeholdersColor = "rgba(239, 100, 97, 1)";
 const adaptabilityColor = "rgba(48, 107, 172, 1)";
 const selfGrowthColor = "rgba(242, 140, 63, 1)";
 
-const edgeColor = "rgba(49, 54, 56, 0.5)";
+const edgeColor = "rgba(49, 54, 56, 0.3)";
 
 const lockedOpacity = 0;
 const unlockedOpacity = 0.25;
@@ -68,10 +68,10 @@ const options = {
         chosen: false,
     },
     groups: {
-        DrivesResults: { color: drivesResultColor },
+        OutcomesDriven: { color: outcomesDrivenColor },
         StrategicMindset: { color: StrategicMindsetColor },
-        Ambiguity: { color: ambiguityColor },
         Alignment: { color: alignmentColor },
+        Ambiguity: { color: ambiguityColor },
         Interconnectivity: { color: interconnectivityColor },
         Communication: { color: communicationColor },
         BalancesStakeholders: { color: balancesStakeholdersColor },
@@ -322,7 +322,7 @@ function populatePopupForNode(node) {
 }
 
 const pbElements = {
-    DrivesResults: drivesResultColor,
+    OutcomesDriven: outcomesDrivenColor,
     StrategicMindset: StrategicMindsetColor,
     Ambiguity: ambiguityColor,
     Alignment: alignmentColor,
@@ -334,7 +334,7 @@ const pbElements = {
 };
 
 const pbElementTitle = {
-    DrivesResults: "Drives Results",
+    OutcomesDriven: "Outcomes Driven",
     StrategicMindset: "Strategic Mindset",
     Alignment: "Alignment",
     Ambiguity: "Ambiguity",
@@ -454,6 +454,10 @@ function stopSkilltree() {
     setTimeout(function () {
         screenShot();
     }, 1000);
+}
+
+function recenter() {
+    network.fit();
 }
 
 window.addEventListener("mousemove", (event) => {
