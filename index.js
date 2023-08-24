@@ -173,8 +173,6 @@ function getRefundHelper(nodeId) {
     curNode.selected = false;
     nodes.update(curNode);
 
-    buildVisited.delete(curNode.id);
-
     refundVisited.add(nodeId);
     return refund;
 }
