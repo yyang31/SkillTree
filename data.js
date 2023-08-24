@@ -799,7 +799,7 @@ let nodes = new vis.DataSet([
         description:
             "Is highly alert to the future, analyzing multiple possibilities and scenarios to equip the organization to the address change, tackle, challenge, and shape new opportunities.",
         x: 550,
-        y: -475,
+        y: -500,
     },
     {
         id: 75,
@@ -853,8 +853,8 @@ let nodes = new vis.DataSet([
         image: "images/strategic_mindset.png",
         description:
             "Effectively combines long-term opportunities and challenges with daily activities.",
-        x: 350,
-        y: -375,
+        x: 375,
+        y: -400,
     },
     {
         id: 80,
@@ -865,7 +865,7 @@ let nodes = new vis.DataSet([
         description:
             "Is a strong big-picture thinker and makes frequent, clear references to organizational vision and strategy with necessary stepping stones.",
         x: 375,
-        y: -475,
+        y: -500,
     },
     {
         id: 81,

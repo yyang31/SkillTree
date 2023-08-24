@@ -396,7 +396,9 @@ function resetSkilltree() {
 
         nodes.getIds().forEach((nodeId) => {
             let curNode = nodes.get(nodeId);
-            curNode.selected = false;
+            if (!curNode.isRoot) {
+                curNode.selected = false;
+            }
         });
         buildGraphDisplay();
 

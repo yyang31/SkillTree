@@ -5,12 +5,12 @@
     display: block;
     visibility: hidden;
     position: absolute;
-    padding: 10px 20px;
-    width: 200px;
+    padding: 20px 10px;
+    max-width: 300px;
     text-align: center;
     pointer-events: none;
     background-color: rgba(232, 233, 235, 1);
-    border-radius: .3rem;
+    border-radius: 0.3rem;
     box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
     transition: visibility 0s, opacity 0.2s linear;
 }
@@ -59,7 +59,7 @@
 
 @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
     #menuBar {
-        background-color: rgba(49, 54, 56, .2);
+        background-color: rgba(49, 54, 56, 0.2);
         -webkit-backdrop-filter: blur(5px);
         backdrop-filter: blur(5px);
     }
