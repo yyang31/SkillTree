@@ -29,7 +29,7 @@ const selectedOpacity = 1;
 
 const zoomLimit = 0.25;
 
-const defaultNumberOfSkillPoints = 5;
+const defaultNumberOfSkillPoints = 50;
 
 const container = document.getElementById("skilltree");
 const data = {
@@ -48,7 +48,7 @@ const options = {
         shape: "circularImage",
         scaling: { min: 20, max: 50 },
         font: {
-            face: "Raleway, Helvetica, Arial",
+            face: "Montserrat, Helvetica, Arial",
             size: 11,
             color: "#666",
         },
