@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 
-<body>
+<body onclick="mouseClick()">
     <div id="loadingScreen">
         <div class="loader"></div>
         <div id="loadingError"></div>
@@ -74,6 +74,10 @@
                 <div id="bottomMenu">
                     <div id="timer"></div>
                     <div id="action">
+                        <div id="mouseClick" class="action-button disabled">
+                            <span id="mouseClickCount">0</span>
+                            <div class="tooltip">Total number of mouse clicks</div>
+                        </div>
                         <div id="userId" class="action-button disabled">
                             <div class="tooltip">Your unique ID</div>
                         </div>

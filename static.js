@@ -9,11 +9,6 @@ let staticTreeContainerSelector = document.getElementById(
 
 let hasLoadingError = false;
 
-function auto_grow(element) {
-    element.style.height = "45px";
-    element.style.height = element.scrollHeight + "px";
-}
-
 function disableCategoryInputs() {
     textareas = categoryInputsSelector.getElementsByTagName("textarea");
 

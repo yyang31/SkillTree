@@ -113,3 +113,9 @@ function toggleTimer() {
         setTimeout(toggleTimer, 10);
     }
 }
+
+let clickCount = 0;
+function mouseClick() {
+    clickCount++;
+    document.getElementById("mouseClickCount").innerHTML = clickCount;
+}

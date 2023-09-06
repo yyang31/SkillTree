@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="static.css" />
 </head>
 
-<body>
+<body onclick="mouseClick()">
     <div id="loadingScreen">
         <div class="loader"></div>
         <div id="loadingError"></div>
@@ -25,7 +25,7 @@
                     d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
             </svg><span>Close</span></div>
         <div id="instructionPanelContent">
-            <h3>Instructions:</h3>
+            <h3>Instructions:: &nbsp;</h3>
             <ol>
                 <li>Allocate exactly <b>50 points</b> across the skill branches.</li>
                 <li>Click stop when done.</li>
@@ -43,6 +43,10 @@
             <div id="rightMenu">
                 <div id="timer"></div>
                 <div id="action">
+                    <div id="mouseClick" class="action-button disabled">
+                        <span id="mouseClickCount">0</span>
+                        <div class="tooltip">Total number of mouse clicks</div>
+                    </div>
                     <div id="userId" class="action-button disabled">
                         <div class="tooltip">Your unique ID</div>
                     </div>
@@ -77,51 +81,47 @@
     </div>
 
     <div id="categoryInputs">
-        <div class="input-row">
-            <div class="input-col">
-                <h3>Drives Results</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+        <div class="input-container">
+            <div class="input-item">
+                <h3>Drives Results: &nbsp;</h3>
+                <input></input>
             </div>
-            <div class="input-col">
-                <h3>Strategic Mindset</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Strategic Mindset: &nbsp;</h3>
+                <input></input>
             </div>
-            <div class="input-col">
-                <h3>Alignment</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Alignment: &nbsp;</h3>
+                <input></input>
             </div>
-        </div>
-        <div class="input-row">
-            <div class="input-col">
-                <h3>Amiguity</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Ambiguity: &nbsp;</h3>
+                <input></input>
             </div>
-            <div class="input-col">
-                <h3>Interconnectivity</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Interconnectivity: &nbsp;</h3>
+                <input></input>
             </div>
-            <div class="input-col">
-                <h3>Communication</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Communication: &nbsp;</h3>
+                <input></input>
             </div>
-        </div>
-        <div class="input-row">
-            <div class="input-col">
-                <h3>Balances Stakeholders</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Balances Stakeholders: &nbsp;</h3>
+                <input></input>
             </div>
-            <div class="input-col">
-                <h3>Adaptability</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Adaptability: &nbsp;</h3>
+                <input></input>
             </div>
-            <div class="input-col">
-                <h3>Self-Growth</h3>
-                <textarea oninput="auto_grow(this)"></textarea>
+            <div class="input-item">
+                <h3>Self-Growth: &nbsp;</h3>
+                <input></input>
             </div>
         </div>
     </div>
     <div id="staticTreeContainer">
-        <img src="/images/static.png">
+        <img src="/images/static.jpg">
     </div>
     <a id="screenshotContainer"></a>
 </body>

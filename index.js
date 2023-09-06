@@ -27,7 +27,8 @@ const lockedOpacity = 0;
 const unlockedOpacity = 0.25;
 const selectedOpacity = 1;
 
-const zoomLimit = 0.25;
+const MIN_ZOOM = 0.25;
+const MAX_ZOOM = 2;
 
 const defaultNumberOfSkillPoints = 50;
 
@@ -189,13 +190,26 @@ network.once("stabilized", () => {
 /**
     limit zoom
 **/
+let lastZoomPosition = { x: 0, y: 0 };
 network.on("zoom", function () {
-    if (network.getScale() <= zoomLimit) {
+    let scale = network.getScale();
+    if (scale <= MIN_ZOOM) {
         network.moveTo({
-            scale: zoomLimit,
-            position: network.DOMtoCanvas(mousePosition),
+            position: lastZoomPosition,
+            scale: MIN_ZOOM,
         });
+    } else if (scale >= MAX_ZOOM) {
+        network.moveTo({
+            position: lastZoomPosition,
+            scale: MAX_ZOOM,
+        });
+    } else {
+        lastZoomPosition = network.getViewPosition();
     }
+});
+
+network.on("dragEnd", function () {
+    lastZoomPosition = network.getViewPosition();
 });
 
 /**
