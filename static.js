@@ -6,6 +6,9 @@ let categoryInputsSelector = document.getElementById("categoryInputs");
 let staticTreeContainerSelector = document.getElementById(
     "staticTreeContainer"
 );
+let staticTreeContainerImageSelector = document.querySelector(
+    "#staticTreeContainer img"
+);
 
 let hasLoadingError = false;
 
@@ -35,6 +38,31 @@ function stopSkilltree() {
     }, 1000);
 }
 
+let currentZoom = 1;
+let minZoom = 1;
+let maxZoom = 5;
+let stepSize = 0.1;
+staticTreeContainerSelector.addEventListener("wheel", function (event) {
+    // Zoom in or out based on the scroll direction
+    let direction = event.deltaY > 0 ? -1 : 1;
+    zoomImage(direction);
+});
+
+function zoomImage(direction) {
+    let newZoom = currentZoom + direction * stepSize;
+
+    // Limit the zoom level to the minimum and maximum values
+    if (newZoom < minZoom || newZoom > maxZoom) {
+        return;
+    }
+
+    currentZoom = newZoom;
+
+    // Update the CSS transform of the image to scale it
+    staticTreeContainerImageSelector.style.transform =
+        "scale(" + currentZoom + ")";
+}
+
 window.onload = () => {
     // check for mobile device
     mobileAndTabletCheck();
@@ -45,7 +73,7 @@ window.onload = () => {
     // hide loading screen
     setTimeout(function () {
         loadingScreenSelector.style.opacity = "0";
-        staticTreeContainerSelector.style.display = "block";
+        staticTreeContainerSelector.style.display = "flex";
 
         // start the timer
         timer = true;
