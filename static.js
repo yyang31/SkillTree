@@ -261,6 +261,7 @@ function prepareInputs() {
 
 function stopSkilltree() {
     disableCategoryInputs();
+    recenter();
 
     resetButtonSelector.style.display = "none";
 

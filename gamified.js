@@ -30,7 +30,7 @@ const selectedOpacity = 1;
 const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 2;
 
-const defaultNumberOfSkillPoints = 50;
+const defaultNumberOfSkillPoints = 5;
 
 const container = document.getElementById("skilltree");
 const data = {
