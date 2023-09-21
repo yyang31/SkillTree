@@ -131,27 +131,32 @@ body {
 }
 
 /******************** instruction panel ********************/
+#instructionPanelWrapper {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to right top, #b1a9c9, #d7aac9, #f7aeb7, #ffba9d, #f7d08a);
+    z-index: 4999;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0.2s, opacity 0.2s linear;
+    overflow: scroll;
+}
+
+#instructionPanelWrapper.hide {
+    visibility: hidden;
+    opacity: 0;
+}
+
 #instructionPanel {
     display: flex;
     flex-direction: column;
-    max-width: calc(15% - 10px);
-    max-height: 1000px;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 150;
-}
-
-#instructionPanel ol {
-    padding-left: 20px;
-}
-
-#instructionPanel p {
-    margin-bottom: 0;
-}
-
-#instructionPanel h3 {
-    margin: 0;
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
 }
 
 #instructionPanel.hide #instructionPanelContent {
@@ -161,41 +166,34 @@ body {
 }
 
 #instructionPanelContent {
-    background-color: rgba(49, 54, 56, 0.8);
-    box-shadow: 0 3px 10px rgb(49 54 56 / 0.2);
-    border-radius: 10px;
-    padding: 60px 10px 10px 10px;
-    font-size: 12px;
-    visibility: visible;
-    opacity: 1;
-    transition: visibility 0s, opacity 0.2s linear;
+    font-size: 14px;
 }
 
-@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
-    #instructionPanelContent {
-        background-color: rgba(49, 54, 56, .2);
-        -webkit-backdrop-filter: blur(5px);
-        backdrop-filter: blur(5px);
-    }
-}
-
-#instructionToggleButton {
+.instruction-button {
     cursor: pointer;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(232, 233, 235, 1);
+    padding: 7px 30px;
+}
+
+.instruction-button span {
+    margin-left: 10px;
+}
+
+#instructionCloseButton {
+    margin: auto;
+}
+
+#instructionOpenButton {
+    background-color: #04AA6D;
+    color: white;
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 151;
-    border: 1px solid rgba(49, 54, 56, 0.2);
-    margin: 0;
-    background-color: rgba(232, 233, 235, 1);
+    z-index: 4998;
 }
 
-#instructionToggleButton span {
-    margin-left: 10px;
-}
+/******************** button click ********************/
 
 #mouseClick .tooltip {
     top: 35px;

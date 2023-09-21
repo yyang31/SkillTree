@@ -308,10 +308,6 @@ window.onload = () => {
     // hide loading screen
     setTimeout(function () {
         loadingScreenSelector.style.opacity = "0";
-
-        // start the timer
-        timer = true;
-        toggleTimer();
     }, 1000);
 };
 

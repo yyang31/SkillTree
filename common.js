@@ -1,26 +1,32 @@
+let haveStarted = false;
+
 // instruction Panel
-let instructionPanelSelector = document.getElementById("instructionPanel");
-let instructionToggleButtonSelector = document.getElementById(
-    "instructionToggleButton"
+let instructionPanelWrapperSelector = document.getElementById(
+    "instructionPanelWrapper"
+);
+let instructionCloseButtonSelector = document.getElementById(
+    "instructionCloseButton"
 );
 
-function toggleInstructionPanel(action = "open") {
-    if (action == "open") {
-        instructionPanelSelector.classList.remove("hide");
-        instructionToggleButtonSelector.lastChild.innerText = "Close";
+function toggleInstructionPanel() {
+    if (!haveStarted) {
+        haveStarted = true;
+
+        instructionPanelWrapperSelector.classList.add("hide");
+
+        // start the timer
+        timer = true;
+        toggleTimer();
+
+        instructionCloseButtonSelector.innerText = "Close";
     } else {
-        instructionPanelSelector.classList.add("hide");
-        instructionToggleButtonSelector.lastChild.innerText = "Help";
+        if (instructionPanelWrapperSelector.classList.contains("hide")) {
+            instructionPanelWrapperSelector.classList.remove("hide");
+        } else {
+            instructionPanelWrapperSelector.classList.add("hide");
+        }
     }
 }
-
-instructionToggleButtonSelector.addEventListener("click", () => {
-    if (instructionPanelSelector.classList.contains("hide")) {
-        toggleInstructionPanel("open");
-    } else {
-        toggleInstructionPanel("close");
-    }
-});
 
 function mobileAndTabletCheck() {
     let check = false;
