@@ -211,3 +211,19 @@ body {
     border: 1px solid rgba(49, 54, 56, 0.2);
     position: relative;
 }
+
+#recenterButton {
+    background-color: rgba(232, 233, 235, 1);
+}
+
+#recenterButton .tooltip {
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 140px;
+}
+
+#recenterButton:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}

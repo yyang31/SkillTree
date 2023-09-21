@@ -279,6 +279,13 @@ function stopSkilltree() {
     }, 1000);
 }
 
+function recenter() {
+    canvas.width = staticTreeContainerSelector.offsetWidth;
+    canvas.height = staticTreeContainerSelector.offsetHeight;
+
+    redraw();
+}
+
 function resetSkilltree() {
     skillPoints = 0;
     Array.from(categoryInputsSelector.getElementsByTagName("input")).forEach(
@@ -312,8 +319,5 @@ window.onload = () => {
 };
 
 window.onresize = () => {
-    canvas.width = staticTreeContainerSelector.offsetWidth;
-    canvas.height = staticTreeContainerSelector.offsetHeight;
-
-    redraw();
+    recenter();
 };

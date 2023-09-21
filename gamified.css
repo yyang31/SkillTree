@@ -207,22 +207,6 @@
     opacity: 1;
 }
 
-#recenterButton {
-    background-color: rgba(232, 233, 235, 1);
-}
-
-#recenterButton .tooltip {
-    top: 35px;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 140px;
-}
-
-#recenterButton:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-
 #resetButton {
     background-color: rgba(232, 233, 235, 1);
 }
