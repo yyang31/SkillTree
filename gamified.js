@@ -4,7 +4,6 @@ let skillPointSelector = document.getElementById("skillPoints");
 let screenshotButtonSelector = document.getElementById("screenshotButton");
 let stopButtonSelector = document.getElementById("stopButton");
 let resetButtonSelector = document.getElementById("resetButton");
-let loadingScreenSelector = document.getElementById("loadingScreen");
 
 // important colors
 const notBlack = "rgba(49, 54, 56, 1)";
@@ -84,7 +83,6 @@ const options = {
 let network = new vis.Network(container, data, options);
 
 let stopSelection = false;
-let hasLoadingError = false;
 
 let mousePosition = {};
 

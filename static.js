@@ -2,7 +2,6 @@
 let screenshotButtonSelector = document.getElementById("screenshotButton");
 let stopButtonSelector = document.getElementById("stopButton");
 let resetButtonSelector = document.getElementById("resetButton");
-let loadingScreenSelector = document.getElementById("loadingScreen");
 let categoryInputsSelector = document.getElementById("categoryInputs");
 let skillPointSelector = document.getElementById("skillPoints");
 let staticTreeContainerSelector = document.getElementById(
@@ -11,8 +10,6 @@ let staticTreeContainerSelector = document.getElementById(
 let staticTreeContainerImageSelector = document.querySelector(
     "#staticTreeContainer img"
 );
-
-let hasLoadingError = false;
 
 function disableCategoryInputs() {
     textareas = categoryInputsSelector.getElementsByTagName("textarea");

@@ -28,6 +28,8 @@ function toggleInstructionPanel() {
     }
 }
 
+let hasLoadingError = false;
+let loadingScreenSelector = document.getElementById("loadingScreen");
 function mobileAndTabletCheck() {
     let check = false;
     (function (a) {
