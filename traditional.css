@@ -1,15 +1,34 @@
 #traditionalSkillTreeContainer {
-    padding: 100px 20px 20px 20px;
+    padding: 20px;
     height: 100vh;
     overflow-y: scroll;
     max-width: 1000px;
     margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#skillTextAreaContainer {
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+#skillTextArea {
+    width: 70%;
+    z-index: 1;
+    border: 1px solid rgba(49, 54, 56, 1);
+    border-radius: 15px;
+    resize: none;
+    padding: 10px;
 }
 
 /*********** menu ***********/
 #menuBarContainer {
     width: 80%;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
