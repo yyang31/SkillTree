@@ -15,6 +15,8 @@ function stopSkilltree() {
     timer = false;
     toggleTimer();
 
+    skillTextAreaSelector.disabled = true;
+
     document.getElementById("nextButton").style.display = "block";
 
     // wait for the network to re-center

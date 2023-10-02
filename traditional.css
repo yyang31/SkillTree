@@ -1,12 +1,19 @@
-#traditionalSkillTreeContainer {
-    padding: 20px;
-    height: 100vh;
-    overflow-y: scroll;
-    max-width: 1000px;
-    margin: auto;
+#traditionalSkillTreeContainerWrapper {
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#traditionalSkillTreeContainer {
+    padding: 20px;
+    height: 100vh;
+    max-width: 1000px;
+    margin: auto;
 }
 
 #skillTextAreaContainer {
@@ -19,7 +26,7 @@
 #skillTextArea {
     width: 70%;
     z-index: 1;
-    border: 1px solid rgba(49, 54, 56, 1);
+    border: 1px solid rgba(49, 54, 56, 0.2);
     border-radius: 15px;
     resize: none;
     padding: 10px;
