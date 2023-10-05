@@ -30,6 +30,8 @@
     border-radius: 15px;
     resize: none;
     padding: 10px;
+    height: 75px;
+    overflow-y: scroll;
 }
 
 /*********** menu ***********/

@@ -41,7 +41,10 @@ window.onload = () => {
 
     generateId(6);
 
-    auto_grow();
+    // auto_grow();
+
+    traditionalSkillTreeContainerSelector.style.paddingTop =
+        skillTextAreaSelector.getBoundingClientRect().bottom + "px";
 
     // hide loading screen
     setTimeout(function () {
