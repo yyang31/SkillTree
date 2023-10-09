@@ -17,7 +17,7 @@ function stopSkilltree() {
 
     skillTextAreaSelector.disabled = true;
 
-    document.getElementById("nextButton").style.display = "block";
+    // document.getElementById("nextButton").style.display = "block";
 
     // wait for the network to re-center
     setTimeout(function () {
