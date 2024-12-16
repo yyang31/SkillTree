@@ -13,6 +13,11 @@ body {
     background-color: rgba(232, 233, 235, 1);
 }
 
+/*********** common ***********/
+.d-none {
+    display: none !important;
+}
+
 /*********** tool tip ***********/
 .tooltip {
     color: rgba(232, 233, 235, 1);
@@ -180,6 +185,7 @@ body {
     margin-left: 10px;
 }
 
+#instructionStartButton,
 #instructionCloseButton {
     margin: auto;
 }

@@ -57,6 +57,9 @@ function mobileAndTabletCheck() {
 }
 
 function generateId(length) {
+    let userIdElement = document.getElementById("userId");
+    if (!userIdElement) return;
+
     let result = "";
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const charactersLength = characters.length;
@@ -120,6 +123,10 @@ function toggleTimer() {
 
         setTimeout(toggleTimer, 10);
     }
+}
+
+function getTimerTime() {
+    return `${hour}:${minute}:${second}`;
 }
 
 let clickCount = 0;

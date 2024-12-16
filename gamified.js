@@ -1,3 +1,41 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyBp8a9Sce3DI-lwiqAurZZO8EM7L1UVoMI", // prod
+    // apiKey: "AIzaSyD7dVY-2VAvHSDS-E0R6Bdqkn43BaRXvXY", // local
+    authDomain: "skilltree-470e0.firebaseapp.com",
+    projectId: "skilltree-470e0",
+    storageBucket: "skilltree-470e0.firebasestorage.app",
+    messagingSenderId: "455190731454",
+    appId: "1:455190731454:web:40cd3c8b4dcc9a791fdcef",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Reference to Firestore collection
+const surveyCollection = collection(db, "2025SpringSurvey");
+
+async function addData(data) {
+    try {
+        const docRef = await addDoc(surveyCollection, data);
+        console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+        console.error("Error adding document: ", error);
+    }
+}
+
 // common selectors
 var popup = document.getElementById("popup");
 let skillPointSelector = document.getElementById("skillPoints");
@@ -29,7 +67,7 @@ const selectedOpacity = 1;
 const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 2;
 
-const defaultNumberOfSkillPoints = 50;
+const defaultNumberOfSkillPoints = 5;
 
 const container = document.getElementById("skilltree");
 const data = {
@@ -97,12 +135,12 @@ const buildGraphDisplay = function () {
     buildVisited.clear();
 
     nodes.getIds().forEach((nodeId) => {
-        this.buildGraphDisplayHelper(nodeId);
+        buildGraphDisplayHelper(nodeId);
     });
 };
 
 function updateGraphDisplay(nodeId) {
-    this.buildGraphDisplayHelper(nodeId, true);
+    buildGraphDisplayHelper(nodeId, true);
 }
 
 function buildGraphDisplayHelper(nodeId, isUpdate = false) {
@@ -424,30 +462,55 @@ function resetSkilltree() {
     }
 }
 
+let savingStatusSelector = document.getElementById("savingStatus");
 function stopSkilltree() {
+    savingStatusSelector.innerText = "saving...";
+    savingStatusSelector.classList.remove("d-none");
+
     stopSelection = true;
 
     stopButtonSelector.style.display = "none";
     resetButtonSelector.style.display = "none";
-    screenshotButtonSelector.style.display = "flex";
+    // screenshotButtonSelector.style.display = "flex";
 
     // stop the timer
     timer = false;
     toggleTimer();
 
+    let data = {
+        id: document.getElementById("userIdInput").value,
+        time_to_finish: getTimerTime(),
+        num_of_clicks: clickCount,
+        selection: skillPointsUsage,
+    };
+
+    addData(data);
+
     // fit the network graph
-    network.fit();
+    // network.fit();
 
-    // document.getElementById("nextButton").style.display = "block";
+    // // document.getElementById("nextButton").style.display = "block";
 
-    // wait for the network to re-center
-    setTimeout(function () {
-        screenShot();
-    }, 1000);
+    // // wait for the network to re-center
+    // setTimeout(function () {
+    //     screenShot();
+    // }, 1000);
+
+    savingStatusSelector.innerText = "saved";
 }
 
 function recenter() {
     network.fit();
+}
+
+function toggleInstructionPanelAfterStart() {
+    toggleInstructionPanel();
+
+    document.getElementById("userIdInput").disabled = true;
+    document.getElementById("instructionStartButton").classList.add("d-none");
+    document
+        .getElementById("instructionCloseButton")
+        .classList.remove("d-none");
 }
 
 window.addEventListener("mousemove", (event) => {
@@ -470,3 +533,9 @@ window.onload = () => {
         loadingScreenSelector.style.opacity = "0";
     }, 1000);
 };
+
+// Expose the function to the global scope
+window.stopSkilltree = stopSkilltree;
+window.resetSkilltree = resetSkilltree;
+window.recenter = recenter;
+window.toggleInstructionPanelAfterStart = toggleInstructionPanelAfterStart;

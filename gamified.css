@@ -1,3 +1,14 @@
+#userIdInputContainer {
+    margin: 10px auto;
+}
+
+#userIdInput {
+    height: 30px;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+
 /*********** poop up ***********/
 #popup {
     opacity: 0;
