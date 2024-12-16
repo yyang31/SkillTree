@@ -7,6 +7,7 @@ let instructionPanelWrapperSelector = document.getElementById(
 let instructionCloseButtonSelector = document.getElementById(
     "instructionCloseButton"
 );
+let timerSelector = document.getElementById("timer");
 
 function toggleInstructionPanel() {
     if (!haveStarted) {
@@ -15,8 +16,10 @@ function toggleInstructionPanel() {
         instructionPanelWrapperSelector.classList.add("hide");
 
         // start the timer
-        timer = true;
-        toggleTimer();
+        if (timerSelector) {
+            timer = true;
+            toggleTimer();
+        }
 
         instructionCloseButtonSelector.innerText = "Close";
     } else {
@@ -119,7 +122,7 @@ function toggleTimer() {
         let secString = second < 10 ? "0" + second : second;
         let timerString = `${hrString}:${minString}:${secString}`;
 
-        document.getElementById("timer").innerText = timerString;
+        timerSelector.innerText = timerString;
 
         setTimeout(toggleTimer, 10);
     }

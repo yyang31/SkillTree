@@ -11,8 +11,7 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyBp8a9Sce3DI-lwiqAurZZO8EM7L1UVoMI", // prod
-    // apiKey: "AIzaSyD7dVY-2VAvHSDS-E0R6Bdqkn43BaRXvXY", // local
+    apiKey: "AIzaSyBp8a9Sce3DI-lwiqAurZZO8EM7L1UVoMI",
     authDomain: "skilltree-470e0.firebaseapp.com",
     projectId: "skilltree-470e0",
     storageBucket: "skilltree-470e0.firebasestorage.app",
@@ -474,12 +473,13 @@ function stopSkilltree() {
     // screenshotButtonSelector.style.display = "flex";
 
     // stop the timer
-    timer = false;
-    toggleTimer();
+    // timer = false;
+    // toggleTimer();
 
     let data = {
         id: document.getElementById("userIdInput").value,
-        time_to_finish: getTimerTime(),
+        start_time: startTime,
+        end_time: new Date(),
         num_of_clicks: clickCount,
         selection: skillPointsUsage,
     };
@@ -503,7 +503,10 @@ function recenter() {
     network.fit();
 }
 
+let startTime;
 function toggleInstructionPanelAfterStart() {
+    startTime = new Date();
+
     toggleInstructionPanel();
 
     document.getElementById("userIdInput").disabled = true;
