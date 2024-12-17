@@ -190,6 +190,11 @@ body {
     margin: auto;
 }
 
+#instructionStartButton {
+    background-color: #4a6b49;
+    color: white;
+}
+
 #instructionOpenButton {
     background-color: #04AA6D;
     color: white;

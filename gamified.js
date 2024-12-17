@@ -41,6 +41,8 @@ let skillPointSelector = document.getElementById("skillPoints");
 let screenshotButtonSelector = document.getElementById("screenshotButton");
 let stopButtonSelector = document.getElementById("stopButton");
 let resetButtonSelector = document.getElementById("resetButton");
+let startButtonSelector = document.getElementById("instructionStartButton");
+let userIdContainerSelector = document.getElementById("userIdInputContainer");
 
 // important colors
 const notBlack = "rgba(49, 54, 56, 1)";
@@ -505,6 +507,14 @@ function recenter() {
 
 let startTime;
 function toggleInstructionPanelAfterStart() {
+    let userIdValue = document.getElementById("userIdInput").value;
+    if (userIdValue == "") {
+        userIdContainerSelector.classList.add("error");
+        return;
+    } else {
+        userIdContainerSelector.classList.remove("error");
+    }
+
     startTime = new Date();
 
     toggleInstructionPanel();
@@ -521,6 +531,9 @@ window.addEventListener("mousemove", (event) => {
 });
 
 window.onload = () => {
+    // disable start button
+    startButtonSelector.disabled = true;
+
     // check for mobile device
     mobileAndTabletCheck();
     if (hasLoadingError) return;

@@ -2,6 +2,14 @@
     margin: 10px auto;
 }
 
+#userIdInputContainer.error label {
+    color: #ed2f2f
+}
+
+#userIdInputContainer.error #userIdInput {
+    border: 1px solid #ed2f2f;
+}
+
 #userIdInput {
     height: 30px;
     padding: 10px;
