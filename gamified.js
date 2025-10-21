@@ -475,13 +475,14 @@ function stopSkilltree() {
     // screenshotButtonSelector.style.display = "flex";
 
     // stop the timer
-    // timer = false;
-    // toggleTimer();
+    timer = false;
+    toggleTimer();
 
     let data = {
         id: document.getElementById("userIdInput").value,
         start_time: startTime,
         end_time: new Date(),
+        time_taken: `${hour}h ${minute}m ${second}s`,
         num_of_clicks: clickCount,
         selection: skillPointsUsage,
     };
