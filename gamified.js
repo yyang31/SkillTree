@@ -516,6 +516,9 @@ function toggleInstructionPanelAfterStart() {
         userIdContainerSelector.classList.remove("error");
     }
 
+    let userIdFromInput = document.getElementById("userIdFromInput");
+    userIdFromInput.innerText = userIdValue;
+
     startTime = new Date();
 
     toggleInstructionPanel();
